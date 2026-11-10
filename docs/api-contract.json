@@ -1,0 +1,126 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ResolveAI REST API Contract",
+    "version": "1.0.0",
+    "description": "API contract for ResolveAI dispute intelligence backend"
+  },
+  "servers": [
+    { "url": "http://localhost:4000/api", "description": "Local Development Server" }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Register merchant account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password", "name"],
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string", "minLength": 8 },
+                  "name": { "type": "string" },
+                  "businessName": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "JWT token and user profile" }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Merchant login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "JWT token returned" }
+        }
+      }
+    },
+    "/merchants/dashboard": {
+      "get": {
+        "summary": "Retrieve merchant KPI counters and recent activity",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "KPI object containing activeDisputes, totalDisputedAmount, averageCompletenessScore, urgentDisputes"
+          }
+        }
+      }
+    },
+    "/disputes": {
+      "get": {
+        "summary": "List disputes with pagination and filters",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "status", "in": "query", "schema": { "type": "string" } },
+          { "name": "reason", "in": "query", "schema": { "type": "string" } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Paginated dispute list" }
+        }
+      }
+    },
+    "/disputes/{id}": {
+      "get": {
+        "summary": "Get full dispute case details including matched transaction and evidence",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Dispute object" } }
+      }
+    },
+    "/disputes/{id}/analyze": {
+      "post": {
+        "summary": "Trigger autonomous Gemini AI investigation pipeline",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Structured AI analysis result" } }
+      }
+    },
+    "/disputes/{id}/approve": {
+      "post": {
+        "summary": "Human merchant approves response draft for submission",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Updated dispute with approval status" } }
+      }
+    },
+    "/disputes/{id}/submit": {
+      "post": {
+        "summary": "Submit contestation to PayPal (blocks if not approved)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Submitted dispute object" },
+          "400": { "description": "Submission blocked: human approval missing" }
+        }
+      }
+    },
+    "/paypal/webhooks": {
+      "post": {
+        "summary": "PayPal Webhook listener (HMAC signature verification)",
+        "responses": { "200": { "description": "Webhook acknowledged" } }
+      }
+    }
+  }
+}
+

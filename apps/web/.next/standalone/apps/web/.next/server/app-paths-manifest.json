@@ -1,0 +1,11 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/register/page": "app/register/page.js",
+  "/(dashboard)/disputes/page": "app/(dashboard)/disputes/page.js",
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(dashboard)/disputes/[id]/page": "app/(dashboard)/disputes/[id]/page.js",
+  "/(dashboard)/webhooks/page": "app/(dashboard)/webhooks/page.js",
+  "/(dashboard)/settings/page": "app/(dashboard)/settings/page.js"
+}

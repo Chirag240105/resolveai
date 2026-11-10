@@ -1,0 +1,317 @@
+// ResolveAI - Prisma Schema
+// AI-powered dispute investigation platform for PayPal merchants
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  MERCHANT
+  REVIEWER
+  ADMIN
+}
+
+enum DisputeStatus {
+  OPEN
+  WAITING_FOR_SELLER_RESPONSE
+  WAITING_FOR_BUYER_RESPONSE
+  UNDER_REVIEW
+  RESOLVED
+  CLOSED
+  ESCALATED
+}
+
+enum DisputeReason {
+  ITEM_NOT_RECEIVED
+  UNAUTHORIZED_TRANSACTION
+  DUPLICATE_TRANSACTION
+  ITEM_NOT_AS_DESCRIBED
+  MERCHANDISE_OR_SERVICE_NOT_RECEIVED
+  CREDIT_NOT_PROCESSED
+  OTHER
+}
+
+enum DisputeOutcome {
+  RESOLVED_BUYER_FAVOUR
+  RESOLVED_SELLER_FAVOUR
+  RESOLVED_WITH_PAYOUT
+  CANCELED_BY_BUYER
+  ACCEPTED
+  DENIED
+  NONE
+}
+
+enum EvidenceType {
+  TRACKING_INFO
+  SHIPPING_LABEL
+  DELIVERY_CONFIRMATION
+  INVOICE
+  RECEIPT
+  REFUND_CONFIRMATION
+  CUSTOMER_COMMUNICATION
+  PRODUCT_DESCRIPTION
+  PROOF_OF_DELIVERY
+  TERMS_AND_CONDITIONS
+  SCREENSHOT
+  OTHER
+}
+
+enum AnalysisStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum ApprovalStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  SUBMITTED
+  SUBMISSION_FAILED
+}
+
+enum WebhookStatus {
+  RECEIVED
+  PROCESSING
+  PROCESSED
+  FAILED
+  DUPLICATE
+}
+
+enum AuditAction {
+  DISPUTE_RECEIVED
+  DISPUTE_SYNCED
+  ANALYSIS_STARTED
+  ANALYSIS_COMPLETED
+  ANALYSIS_FAILED
+  EVIDENCE_ATTACHED
+  EVIDENCE_REMOVED
+  RESPONSE_DRAFTED
+  RESPONSE_EDITED
+  APPROVAL_REQUESTED
+  APPROVAL_GRANTED
+  APPROVAL_REJECTED
+  SUBMISSION_STARTED
+  SUBMISSION_COMPLETED
+  SUBMISSION_FAILED
+  USER_LOGIN
+  USER_LOGOUT
+  PAYPAL_CONNECTED
+  PAYPAL_DISCONNECTED
+  WEBHOOK_RECEIVED
+  WEBHOOK_PROCESSED
+  WEBHOOK_FAILED
+}
+
+// ─── Models ─────────────────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String
+  role         UserRole @default(MERCHANT)
+  isActive     Boolean  @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  merchant     Merchant?
+  auditLogs    AuditLog[]
+
+  @@map("users")
+}
+
+model Merchant {
+  id                 String   @id @default(cuid())
+  userId             String   @unique @map("user_id")
+  businessName       String   @map("business_name")
+  businessEmail      String?  @map("business_email")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paypalConnection   PaypalConnection?
+  transactions       Transaction[]
+  disputes           Dispute[]
+
+  @@map("merchants")
+}
+
+model PaypalConnection {
+  id                 String   @id @default(cuid())
+  merchantId         String   @unique @map("merchant_id")
+  paypalMerchantId   String?  @map("paypal_merchant_id")
+  accessToken        String?  @map("access_token")
+  refreshToken       String?  @map("refresh_token")
+  tokenExpiresAt     DateTime? @map("token_expires_at")
+  scope              String?
+  isActive           Boolean  @default(true) @map("is_active")
+  connectedAt        DateTime @default(now()) @map("connected_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  merchant           Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  @@map("paypal_connections")
+}
+
+model Transaction {
+  id                 String   @id @default(cuid())
+  merchantId         String   @map("merchant_id")
+  paypalOrderId      String?  @unique @map("paypal_order_id")
+  paypalTransactionId String? @unique @map("paypal_transaction_id")
+  paypalCaptureId    String?  @unique @map("paypal_capture_id")
+  amount             Decimal  @db.Decimal(12, 2)
+  currency           String   @default("USD") @db.VarChar(3)
+  status             String   @default("COMPLETED")
+  payerEmail         String?  @map("payer_email")
+  payerName          String?  @map("payer_name")
+  description        String?
+  itemDetails        Json?    @map("item_details")
+  shippingAddress    Json?    @map("shipping_address")
+  trackingInfo       Json?    @map("tracking_info")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  merchant           Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  disputes           Dispute[]
+
+  @@map("transactions")
+}
+
+model Dispute {
+  id                    String          @id @default(cuid())
+  merchantId            String          @map("merchant_id")
+  transactionId         String?         @map("transaction_id")
+  paypalDisputeId       String          @unique @map("paypal_dispute_id")
+  reason                DisputeReason
+  status                DisputeStatus   @default(OPEN)
+  outcome               DisputeOutcome  @default(NONE)
+  disputeAmount         Decimal         @db.Decimal(12, 2) @map("dispute_amount")
+  disputeCurrency       String          @default("USD") @db.VarChar(3) @map("dispute_currency")
+  sellerResponseDueDate DateTime?       @map("seller_response_due_date")
+  buyerEscalationDate   DateTime?       @map("buyer_escalation_date")
+  messages              Json?
+  paypalDisputeData     Json?           @map("paypal_dispute_data")
+  approvalStatus        ApprovalStatus  @default(PENDING_REVIEW) @map("approval_status")
+  approvedBy            String?         @map("approved_by")
+  approvedAt            DateTime?       @map("approved_at")
+  submittedAt           DateTime?       @map("submitted_at")
+  createdAt             DateTime        @default(now()) @map("created_at")
+  updatedAt             DateTime        @updatedAt @map("updated_at")
+
+  merchant              Merchant        @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  transaction           Transaction?    @relation(fields: [transactionId], references: [id])
+  evidence              DisputeEvidence[]
+  aiAnalyses            AiAnalysis[]
+  auditLogs             AuditLog[]
+
+  @@index([merchantId])
+  @@index([status])
+  @@index([sellerResponseDueDate])
+  @@map("disputes")
+}
+
+model DisputeEvidence {
+  id                String       @id @default(cuid())
+  disputeId         String       @map("dispute_id")
+  evidenceType      EvidenceType @map("evidence_type")
+  title             String
+  description       String?
+  sourceReference   String?      @map("source_reference")
+  sourceData        Json?        @map("source_data")
+  isAiGenerated     Boolean      @default(false) @map("is_ai_generated")
+  isVerified        Boolean      @default(false) @map("is_verified")
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  dispute           Dispute      @relation(fields: [disputeId], references: [id], onDelete: Cascade)
+  documents         EvidenceDocument[]
+
+  @@map("dispute_evidence")
+}
+
+model EvidenceDocument {
+  id                String   @id @default(cuid())
+  evidenceId        String   @map("evidence_id")
+  fileName          String   @map("file_name")
+  fileType          String   @map("file_type")
+  filePath          String   @map("file_path")
+  fileSizeBytes     Int?     @map("file_size_bytes")
+  uploadedAt        DateTime @default(now()) @map("uploaded_at")
+
+  evidence          DisputeEvidence @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+
+  @@map("evidence_documents")
+}
+
+model AiAnalysis {
+  id                    String         @id @default(cuid())
+  disputeId             String         @map("dispute_id")
+  status                AnalysisStatus @default(PENDING)
+  classification        Json?
+  evidenceExtraction    Json?          @map("evidence_extraction")
+  completenessScore     Float?         @map("completeness_score")
+  riskAssessment        Json?          @map("risk_assessment")
+  weaknesses            Json?
+  responseDraft         Json?          @map("response_draft")
+  citations             Json?
+  modelUsed             String?        @map("model_used")
+  promptTokens          Int?           @map("prompt_tokens")
+  completionTokens      Int?           @map("completion_tokens")
+  processingTimeMs      Int?           @map("processing_time_ms")
+  errorMessage          String?        @map("error_message")
+  createdAt             DateTime       @default(now()) @map("created_at")
+  updatedAt             DateTime       @updatedAt @map("updated_at")
+
+  dispute               Dispute        @relation(fields: [disputeId], references: [id], onDelete: Cascade)
+
+  @@index([disputeId])
+  @@map("ai_analyses")
+}
+
+model WebhookEvent {
+  id              String        @id @default(cuid())
+  paypalEventId   String        @unique @map("paypal_event_id")
+  eventType       String        @map("event_type")
+  resourceType    String?       @map("resource_type")
+  resourceId      String?       @map("resource_id")
+  payload         Json
+  status          WebhookStatus @default(RECEIVED)
+  processedAt     DateTime?     @map("processed_at")
+  errorMessage    String?       @map("error_message")
+  retryCount      Int           @default(0) @map("retry_count")
+  createdAt       DateTime      @default(now()) @map("created_at")
+
+  @@index([eventType])
+  @@index([status])
+  @@map("webhook_events")
+}
+
+model AuditLog {
+  id          String      @id @default(cuid())
+  userId      String?     @map("user_id")
+  disputeId   String?     @map("dispute_id")
+  action      AuditAction
+  details     Json?
+  ipAddress   String?     @map("ip_address")
+  userAgent   String?     @map("user_agent")
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  user        User?       @relation(fields: [userId], references: [id])
+  dispute     Dispute?    @relation(fields: [disputeId], references: [id])
+
+  @@index([userId])
+  @@index([disputeId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

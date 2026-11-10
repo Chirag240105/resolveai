@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(dashboard)/layout,_N_T_/(dashboard)/webhooks/layout,_N_T_/(dashboard)/webhooks/page,_N_T_/webhooks"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/e8950a67aa0491f52203ee1f45b1acadb00444a2aa0b8bc3e8f21c09ef275695/$/webhooks",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/(dashboard)/webhooks/page"
+    },
+    "isFallback": false
+  }
+}

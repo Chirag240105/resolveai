@@ -1,0 +1,69 @@
+name: CI / CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run db:generate
+      - run: npm run typecheck
+
+  test-suite:
+    name: Run Automated Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: resolveai
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: resolveai_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://resolveai:testpassword@localhost:5432/resolveai_test?schema=public
+      JWT_SECRET: test-super-secret-jwt-key-min-32-chars!!
+      NODE_ENV: test
+      DEMO_MODE: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run db:generate
+      - run: npx prisma migrate deploy --config apps/api/prisma.config.ts
+      - run: npm test
+
+  build-and-verify:
+    name: Build Production Artifacts
+    needs: [lint-and-typecheck, test-suite]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run db:generate
+      - run: npm run build
+

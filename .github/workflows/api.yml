@@ -1,0 +1,56 @@
+name: API CI
+
+on:
+  push:
+    paths:
+      - "apps/api/**"
+      - "package.json"
+      - "package-lock.json"
+      - "docker-compose.yml"
+      - "Dockerfile"
+      - ".github/workflows/api.yml"
+  pull_request:
+    paths:
+      - "apps/api/**"
+      - "package.json"
+      - "package-lock.json"
+      - "docker-compose.yml"
+      - "Dockerfile"
+      - ".github/workflows/api.yml"
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: invoicepilot
+          POSTGRES_PASSWORD: ci_local_password
+          POSTGRES_DB: invoicepilot
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U invoicepilot -d invoicepilot"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://invoicepilot:ci_local_password@localhost:5432/invoicepilot?schema=public
+      JWT_SECRET: ci_only_secret_at_least_32_characters_long
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run db:validate
+      - run: npm run db:generate
+      - run: npm run db:deploy
+      - run: npm run typecheck
+      - run: npm test
+        env:
+          RUN_DB_INTEGRATION: "true"
+      - run: npm run build
