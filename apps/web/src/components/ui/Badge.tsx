@@ -2,37 +2,50 @@ import React from 'react';
 import { clsx } from 'clsx';
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: 'blue' | 'green' | 'amber' | 'red' | 'purple' | 'gray';
+  variant?: 'violet' | 'purple' | 'blue' | 'success' | 'warning' | 'danger' | 'gray';
   size?: 'sm' | 'md';
+  glow?: boolean;
 }
 
 export const Badge: React.FC<BadgeProps> = ({
   children,
   className,
-  variant = 'gray',
+  variant = 'violet',
   size = 'md',
+  glow = false,
   ...props
 }) => {
   const variants = {
-    blue: 'bg-blue-50 text-blue-700 border-blue-200/60',
-    green: 'bg-emerald-50 text-emerald-700 border-emerald-200/60',
-    amber: 'bg-amber-50 text-amber-800 border-amber-200/60',
-    red: 'bg-rose-50 text-rose-700 border-rose-200/60',
-    purple: 'bg-purple-50 text-purple-700 border-purple-200/60',
-    gray: 'bg-slate-100 text-slate-700 border-slate-200',
+    violet:
+      'bg-[rgba(113,59,255,0.15)] text-[#d4c3ff] border-[rgba(145,105,255,0.35)]',
+    purple:
+      'bg-[rgba(150,63,255,0.18)] text-[#e8d5ff] border-[rgba(150,63,255,0.40)]',
+    blue:
+      'bg-[rgba(83,108,255,0.15)] text-[#b8c6ff] border-[rgba(83,108,255,0.35)]',
+    success:
+      'bg-[rgba(53,211,154,0.12)] text-[#35D39A] border-[rgba(53,211,154,0.35)]',
+    warning:
+      'bg-[rgba(245,185,66,0.12)] text-[#F5B942] border-[rgba(245,185,66,0.35)]',
+    danger:
+      'bg-[rgba(255,100,124,0.12)] text-[#FF647C] border-[rgba(255,100,124,0.35)]',
+    gray:
+      'bg-[rgba(255,255,255,0.06)] text-[#AAA6C5] border-[rgba(255,255,255,0.12)]',
   };
 
+  const glowStyles = glow ? 'shadow-[0_0_15px_rgba(113,59,255,0.3)]' : '';
+
   const sizes = {
-    sm: 'text-[11px] px-2 py-0.5',
-    md: 'text-xs px-2.5 py-1',
+    sm: 'text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-md',
+    md: 'text-xs font-medium px-2.5 py-1 rounded-full',
   };
 
   return (
     <span
       className={clsx(
-        'inline-flex items-center font-medium rounded-full border',
+        'inline-flex items-center gap-1.5 border backdrop-blur-md',
         variants[variant],
         sizes[size],
+        glowStyles,
         className
       )}
       {...props}
@@ -41,4 +54,3 @@ export const Badge: React.FC<BadgeProps> = ({
     </span>
   );
 };
-

@@ -12,13 +12,28 @@ export async function listDisputes(req: AuthenticatedRequest, res: Response) {
 
   const { status, reason, search, page, limit } = req.query;
 
+  const cleanStatus =
+    typeof status === 'string' && status !== 'undefined' && status.trim() !== ''
+      ? (status.trim() as any)
+      : undefined;
+
+  const cleanReason =
+    typeof reason === 'string' && reason !== 'undefined' && reason.trim() !== ''
+      ? (reason.trim() as any)
+      : undefined;
+
+  const cleanSearch =
+    typeof search === 'string' && search !== 'undefined' && search.trim() !== ''
+      ? search.trim()
+      : undefined;
+
   const result = await disputeService.listDisputes({
     merchantId,
-    status: status as any,
-    reason: reason as any,
-    search: search ? String(search) : undefined,
-    page: page ? Number(page) : undefined,
-    limit: limit ? Number(limit) : undefined,
+    status: cleanStatus,
+    reason: cleanReason,
+    search: cleanSearch,
+    page: page && !isNaN(Number(page)) ? Number(page) : undefined,
+    limit: limit && !isNaN(Number(limit)) ? Number(limit) : undefined,
   });
 
   return res.json({ success: true, ...result });

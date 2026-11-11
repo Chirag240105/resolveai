@@ -23,12 +23,17 @@ export class DisputeService {
       merchantId: params.merchantId,
     };
 
-    if (params.status) where.status = params.status;
-    if (params.reason) where.reason = params.reason;
-    if (params.search) {
+    if (params.status && params.status !== ('undefined' as any) && params.status !== ('' as any)) {
+      where.status = params.status;
+    }
+    if (params.reason && params.reason !== ('undefined' as any) && params.reason !== ('' as any)) {
+      where.reason = params.reason;
+    }
+    if (params.search && typeof params.search === 'string' && params.search.trim() !== '' && params.search !== 'undefined') {
+      const term = params.search.trim();
       where.OR = [
-        { paypalDisputeId: { contains: params.search, mode: 'insensitive' } },
-        { transaction: { paypalOrderId: { contains: params.search, mode: 'insensitive' } } },
+        { paypalDisputeId: { contains: term, mode: 'insensitive' } },
+        { transaction: { paypalOrderId: { contains: term, mode: 'insensitive' } } },
       ];
     }
 

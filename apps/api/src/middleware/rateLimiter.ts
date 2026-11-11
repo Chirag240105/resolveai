@@ -5,6 +5,7 @@ export const generalLimiter = rateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     error: {
@@ -18,6 +19,7 @@ export const authLimiter = rateLimit({
   max: 15, // limit each IP to 15 login/register attempts per 15 mins
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     error: {

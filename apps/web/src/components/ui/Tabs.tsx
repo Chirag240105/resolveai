@@ -18,7 +18,12 @@ interface TabsProps {
 
 export const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, onChange, className }) => {
   return (
-    <div className={clsx('border-b border-slate-200 flex gap-2 overflow-x-auto', className)}>
+    <div
+      className={clsx(
+        'border-b border-[rgba(145,105,255,0.18)] flex gap-2 overflow-x-auto scrollbar-none',
+        className
+      )}
+    >
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         return (
@@ -26,18 +31,20 @@ export const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, onChange, className
             key={tab.id}
             onClick={() => onChange(tab.id)}
             className={clsx(
-              'pb-3 pt-2 px-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors flex items-center gap-2',
+              'pb-3 pt-2.5 px-4 text-xs font-semibold uppercase tracking-wider border-b-2 whitespace-nowrap transition-all duration-200 flex items-center gap-2 select-none relative',
               isActive
-                ? 'border-blue-600 text-blue-600'
-                : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'
+                ? 'border-[#963FFF] text-[#F7F5FF] shadow-[0_4px_16px_-4px_rgba(150,63,255,0.5)]'
+                : 'border-transparent text-[#AAA6C5] hover:text-[#F7F5FF] hover:border-[rgba(145,105,255,0.3)]'
             )}
           >
             {tab.label}
             {tab.badge !== undefined && (
               <span
                 className={clsx(
-                  'px-1.5 py-0.5 text-xs rounded-full',
-                  isActive ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-600'
+                  'px-2 py-0.5 text-[10px] rounded-full font-mono',
+                  isActive
+                    ? 'bg-[#713BFF] text-white shadow-[0_0_10px_rgba(113,59,255,0.5)]'
+                    : 'bg-[#181836] text-[#AAA6C5] border border-[rgba(145,105,255,0.2)]'
                 )}
               >
                 {tab.badge}
@@ -49,4 +56,3 @@ export const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, onChange, className
     </div>
   );
 };
-

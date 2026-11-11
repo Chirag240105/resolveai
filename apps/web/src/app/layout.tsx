@@ -3,8 +3,8 @@ import './globals.css';
 import { AuthProvider } from '@/hooks/useAuth';
 
 export const metadata: Metadata = {
-  title: 'ResolveAI — Dispute Investigation & Evidence Intelligence',
-  description: 'AI-powered dispute intelligence and evidence automation platform for PayPal merchants.',
+  title: 'ResolveAI — AI-Powered Dispute Investigation & Evidence Intelligence',
+  description: 'Automated evidence collection, completeness intelligence, and human-in-the-loop dispute defense for PayPal merchants.',
 };
 
 export default function RootLayout({
@@ -13,8 +13,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-slate-50 text-slate-900 antialiased selection:bg-blue-500 selection:text-white">
+    <html lang="en" className="dark">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="min-h-screen bg-[#070711] text-[#F7F5FF] font-sans antialiased selection:bg-violet-600/40 selection:text-white">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

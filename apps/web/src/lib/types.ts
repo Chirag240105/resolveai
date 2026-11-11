@@ -139,13 +139,13 @@ export interface AiAnalysis {
     strategicRecommendation: string;
   };
   weaknesses?: {
-    weaknesses: Array<{
+    weaknesses?: Array<{
       area: string;
       severity: string;
       description: string;
       recommendation: string;
     }>;
-  };
+  } | string[];
   responseDraft?: ResponseDraft;
   citations?: Citation[];
   processingTimeMs?: number;
@@ -154,10 +154,13 @@ export interface AiAnalysis {
 
 export interface AuditLog {
   id: string;
+  disputeId?: string;
+  merchantId?: string;
   action: string;
   details?: Record<string, unknown>;
   createdAt: string;
   user?: {
+    id?: string;
     name: string;
     email: string;
     role: string;

@@ -6,6 +6,7 @@ RUN npm ci
 
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV BUILD_STANDALONE=1
 RUN npm run build
 
 FROM node:22-alpine AS runner

@@ -6,40 +6,49 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   helperText?: string;
   leftIcon?: React.ReactNode;
+  rightAction?: React.ReactNode;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helperText, leftIcon, className, ...props }, ref) => {
+  ({ label, error, helperText, leftIcon, rightAction, className, ...props }, ref) => {
     return (
       <div className="w-full">
         {label && (
-          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#AAA6C5] mb-2">
             {label}
           </label>
         )}
         <div className="relative">
           {leftIcon && (
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#AAA6C5]">
               {leftIcon}
             </div>
           )}
           <input
             ref={ref}
             className={clsx(
-              'w-full bg-white border rounded-lg text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 py-2.5',
-              leftIcon ? 'pl-9 pr-3' : 'px-3',
-              error ? 'border-rose-400 focus:border-rose-500' : 'border-slate-300',
+              'w-full bg-[#0B0B18] border rounded-xl text-sm text-[#F7F5FF] placeholder:text-[#6E6A8A] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#713BFF]/40 focus:border-[#963FFF] py-3 shadow-inner',
+              leftIcon ? 'pl-10 pr-3.5' : rightAction ? 'pl-3.5 pr-10' : 'px-3.5',
+              error
+                ? 'border-[#FF647C] focus:border-[#FF647C] focus:ring-[#FF647C]/30'
+                : 'border-[rgba(145,105,255,0.20)] hover:border-[rgba(145,105,255,0.40)]',
               className
             )}
             {...props}
           />
+          {rightAction && (
+            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center">
+              {rightAction}
+            </div>
+          )}
         </div>
-        {error && <p className="mt-1 text-xs text-rose-600">{error}</p>}
-        {helperText && !error && <p className="mt-1 text-xs text-slate-500">{helperText}</p>}
+        {error && <p className="mt-1.5 text-xs text-[#FF647C] font-medium">{error}</p>}
+        {helperText && !error && (
+          <p className="mt-1.5 text-xs text-[#AAA6C5]">{helperText}</p>
+        )}
       </div>
     );
   }
 );
 
 Input.displayName = 'Input';
-

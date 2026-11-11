@@ -51,7 +51,15 @@ class ApiClient {
   // Disputes
   async listDisputes(params?: { status?: string; reason?: string; search?: string; limit?: string | number; page?: string | number }): Promise<{ items: Dispute[]; pagination: any }> {
     try {
-      const qs = new URLSearchParams(params as any).toString();
+      const cleanParams: Record<string, string> = {};
+      if (params) {
+        Object.entries(params).forEach(([k, v]) => {
+          if (v !== undefined && v !== null && v !== '' && v !== 'undefined') {
+            cleanParams[k] = String(v);
+          }
+        });
+      }
+      const qs = new URLSearchParams(cleanParams).toString();
       const res = await this.fetch<any>(`/api/disputes${qs ? `?${qs}` : ''}`);
       return {
         items: res.items || res,

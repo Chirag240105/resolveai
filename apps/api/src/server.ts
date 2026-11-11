@@ -10,6 +10,9 @@ import { prisma } from './utils/db.js';
 
 const app = express();
 
+// Trust reverse proxy (Docker, Next.js proxy, Nginx) so client IP is resolved from X-Forwarded-For
+app.set('trust proxy', 1);
+
 app.use(helmet());
 app.use(
   cors({
