@@ -82,22 +82,22 @@ export default function SettingsPage() {
       <div>
         <div className="flex items-center gap-2 mb-1">
           <Key className="w-5 h-5 text-violet-primary" />
-          <h1 className="text-2xl font-bold tracking-tight text-text-primary">Settings & Integrations</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-white font-heading">Settings & Integrations</h1>
         </div>
-        <p className="text-sm text-text-muted">
+        <p className="text-sm text-[#E2DDFF]">
           Manage your PayPal Sandbox API credentials, live webhook listeners, and merchant tenant settings.
         </p>
       </div>
 
       {/* PayPal Connection Card */}
-      <Card className="p-6">
+      <Card className="p-6 bg-[#111126]/90 border-[rgba(164,125,255,0.25)]">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-violet-primary" />
-              <CardTitle>PayPal Sandbox OAuth Credentials</CardTitle>
+              <ShieldCheck className="w-5 h-5 text-[#963FFF]" />
+              <CardTitle className="text-white font-heading">PayPal Sandbox OAuth Credentials</CardTitle>
             </div>
-            <span className="flex items-center gap-1.5 text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 font-mono font-semibold">
+            <span className="flex items-center gap-1.5 text-xs text-[#35D39A] bg-[#35D39A]/15 px-3 py-1 rounded-full border border-[#35D39A]/30 font-mono font-semibold">
               <CheckCircle2 className="w-3.5 h-3.5" /> Sandbox Connected
             </span>
           </div>
@@ -115,7 +115,7 @@ export default function SettingsPage() {
             onChange={(e) => setClientSecret(e.target.value)}
           />
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
-            <span className="text-xs text-text-muted font-mono">
+            <span className="text-xs text-[#E2DDFF] font-mono font-medium">
               Mode: sandbox.paypal.com · v1/oauth2/token
             </span>
             <div className="flex items-center gap-2">
@@ -133,24 +133,24 @@ export default function SettingsPage() {
             </div>
           </div>
           {testResult && (
-            <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-xl font-mono flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 shrink-0" />
+            <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs rounded-xl font-mono flex items-center gap-2 font-medium">
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
               {testResult}
             </div>
           )}
         </div>
       </Card>
 
-      {/* Test Order Sandbox Sandbox Trigger */}
-      <Card className="p-6">
+      {/* Test Order Sandbox Trigger */}
+      <Card className="p-6 bg-[#111126]/90 border-[rgba(164,125,255,0.25)]">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <CreditCard className="w-5 h-5 text-violet-primary" />
-            <CardTitle>Create Sandbox Test Order & Capture</CardTitle>
+            <CreditCard className="w-5 h-5 text-[#963FFF]" />
+            <CardTitle className="text-white font-heading">Create Sandbox Test Order & Capture</CardTitle>
           </div>
         </CardHeader>
         <div className="space-y-4 mt-3">
-          <p className="text-xs text-text-muted leading-relaxed">
+          <p className="text-xs text-[#E2DDFF] leading-relaxed">
             Generate an authentic test transaction via PayPal's Orders V2 API. This creates a captured transaction record in your database with shipping data ready to link to simulated disputes.
           </p>
           <div className="flex flex-col sm:flex-row items-end gap-4">
@@ -174,8 +174,8 @@ export default function SettingsPage() {
             </div>
           </div>
           {orderCreatedMsg && (
-            <div className="p-3 bg-violet-primary/10 text-violet-light text-xs rounded-xl border border-violet-primary/20 font-mono flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 shrink-0" />
+            <div className="p-3 bg-[rgba(113,59,255,0.15)] text-[#d4c3ff] text-xs rounded-xl border border-[rgba(150,63,255,0.3)] font-mono flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-[#35D39A]" />
               {orderCreatedMsg}
             </div>
           )}
@@ -183,23 +183,23 @@ export default function SettingsPage() {
       </Card>
 
       {/* Webhook Configuration Guide */}
-      <Card className="p-6">
+      <Card className="p-6 bg-[#111126]/90 border-[rgba(164,125,255,0.25)]">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Webhook className="w-5 h-5 text-violet-primary" />
-            <CardTitle>PayPal Webhook Ingestion Endpoint</CardTitle>
+            <Webhook className="w-5 h-5 text-[#963FFF]" />
+            <CardTitle className="text-white font-heading">PayPal Webhook Ingestion Endpoint</CardTitle>
           </div>
         </CardHeader>
-        <div className="space-y-3.5 text-sm text-text-secondary mt-3">
-          <p className="text-xs text-text-muted">
+        <div className="space-y-3.5 text-sm text-[#F7F5FF] mt-3">
+          <p className="text-xs text-[#E2DDFF]">
             In your PayPal Developer Dashboard under your REST App, configure this URL with your public host or ngrok URL to receive real-time dispute events:
           </p>
-          <div className="p-3.5 bg-bg-secondary rounded-xl font-mono text-xs text-violet-light select-all border border-border-subtle">
+          <div className="p-3.5 bg-[#0B0B18] rounded-xl font-mono text-xs text-white select-all border border-[rgba(164,125,255,0.25)] font-semibold shadow-inner">
             https://your-domain.com/api/paypal/webhooks
           </div>
-          <div className="p-3.5 bg-bg-secondary/40 rounded-xl border border-border-subtle/50 text-xs space-y-1">
-            <span className="font-semibold text-text-primary block font-mono">Recommended Subscribed Events:</span>
-            <p className="font-mono text-text-muted text-[11px] leading-relaxed">
+          <div className="p-3.5 bg-[#0B0B18]/60 rounded-xl border border-[rgba(164,125,255,0.2)] text-xs space-y-1">
+            <span className="font-semibold text-white block font-mono">Recommended Subscribed Events:</span>
+            <p className="font-mono text-[#D4CEF5] text-[11px] leading-relaxed">
               CUSTOMER.DISPUTE.CREATED, CUSTOMER.DISPUTE.UPDATED, CUSTOMER.DISPUTE.RESOLVED, PAYMENT.CAPTURE.COMPLETED
             </p>
           </div>
