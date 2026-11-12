@@ -81,7 +81,7 @@ export default function AuditPage() {
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    api.getWebhookFeed().then((feed) => {
+    api.getAuditLogs().then((feed) => {
       if (feed && feed.length > 0) {
         setLogs([...mockAuditLogs, ...feed]);
       }

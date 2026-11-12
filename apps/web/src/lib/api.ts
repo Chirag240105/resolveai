@@ -8,7 +8,8 @@ class ApiClient {
     };
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('resolveai_token');
-      if (token) {
+      // Only attach token if it is a valid 3-segment JWT and not a client-side demo placeholder
+      if (token && token.split('.').length === 3) {
         headers['Authorization'] = `Bearer ${token}`;
       }
     }
@@ -131,13 +132,26 @@ class ApiClient {
     }
   }
 
-  // Webhooks feed
-  async getWebhookFeed(): Promise<AuditLog[]> {
+  // Audit Trail feed (all activity)
+  async getAuditLogs(action?: string): Promise<AuditLog[]> {
     try {
-      const res = await this.fetch<any>('/api/audit?limit=20');
+      const url = action && action !== 'ALL' ? `/api/audit?action=${action}&limit=50` : '/api/audit?limit=50';
+      const res = await this.fetch<any>(url);
       return res.items || [];
     } catch {
       return MOCK_DASHBOARD.recentActivity;
+    }
+  }
+
+  // Webhooks feed (strictly incoming webhook events)
+  async getWebhookFeed(): Promise<AuditLog[]> {
+    try {
+      const res = await this.fetch<any>('/api/audit?action=WEBHOOK_RECEIVED&limit=30');
+      return res.items || [];
+    } catch {
+      return MOCK_DASHBOARD.recentActivity.filter(
+        (a) => a.action === 'WEBHOOK_RECEIVED'
+      );
     }
   }
 }

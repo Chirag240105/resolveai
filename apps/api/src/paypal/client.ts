@@ -139,9 +139,21 @@ export class PayPalClient {
       }>;
     }
   ): Promise<void> {
+    const evidenceItem: Record<string, any> = {
+      evidence_type: evidence.evidence_type,
+    };
+    if (evidence.notes) {
+      evidenceItem.notes = evidence.notes;
+    }
+    if (evidence.tracking_info && evidence.tracking_info.length > 0) {
+      evidenceItem.evidence_info = {
+        tracking_info: evidence.tracking_info,
+      };
+    }
+
     await this.request<void>(`/v1/customer/disputes/${disputeId}/provide-evidence`, {
       method: 'POST',
-      body: JSON.stringify(evidence),
+      body: JSON.stringify({ evidences: [evidenceItem] }),
     });
   }
 
