@@ -6,7 +6,9 @@ async function proxyRequest(request: NextRequest, pathParams: { path: string[] }
   const backendBase =
     process.env.INTERNAL_API_URL ||
     process.env.NEXT_PUBLIC_API_URL ||
-    (process.env.NODE_ENV === 'production' || process.env.BUILD_STANDALONE === '1'
+    (process.env.VERCEL
+      ? 'https://resolveai-1gez.onrender.com'
+      : process.env.BUILD_STANDALONE === '1'
       ? 'http://api:4000'
       : 'http://localhost:4000');
 

@@ -169,14 +169,15 @@ export default function AuditPage() {
           <select
             value={filterAction}
             onChange={(e) => setFilterAction(e.target.value)}
-            className="bg-[#141024] border border-[rgba(145,105,255,0.25)] rounded-xl text-sm px-3.5 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-[#7047EB]/30 font-medium"
+            className="bg-[#141024] border border-[rgba(145,105,255,0.25)] rounded-xl text-sm px-3.5 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-[#7047EB]/30 font-medium cursor-pointer hover:border-[#8B5CF6] transition-colors"
+            style={{ backgroundColor: '#141024', color: '#FFFFFF' }}
           >
-            <option value="ALL">All Event Types</option>
-            <option value="APPROVAL_GRANTED">Approvals Granted</option>
-            <option value="ANALYSIS_COMPLETED">AI Analyses Completed</option>
-            <option value="SUBMISSION_COMPLETED">PayPal Submissions</option>
-            <option value="WEBHOOK_RECEIVED">Webhook Ingestions</option>
-            <option value="USER_LOGIN">User Logins</option>
+            <option value="ALL" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>All Event Types</option>
+            <option value="APPROVAL_GRANTED" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>Approvals Granted</option>
+            <option value="ANALYSIS_COMPLETED" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>AI Analyses Completed</option>
+            <option value="SUBMISSION_COMPLETED" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>PayPal Submissions</option>
+            <option value="WEBHOOK_RECEIVED" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>Webhook Ingestions</option>
+            <option value="USER_LOGIN" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>User Logins</option>
           </select>
         </div>
       </div>

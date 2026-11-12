@@ -70,7 +70,8 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
         field: 'disputeAmount',
         width: 160,
         valueFormatter: (params) => `$${Number(params.value || 0).toFixed(2)} USD`,
-        cellClass: 'font-mono font-bold text-white',
+        cellClass: 'font-mono font-bold text-[#F5B942]',
+        cellStyle: { color: '#F5B942' },
       },
       {
         headerName: 'Response Due',
@@ -228,7 +229,7 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
                     </span>
                     <DisputeStatusChip status={dispute.status} />
                   </div>
-                  <span className="font-mono text-base font-bold text-white">
+                  <span className="font-mono text-base font-bold text-[#F5B942]" style={{ color: '#F5B942' }}>
                     ${Number(dispute.disputeAmount).toFixed(2)} {dispute.disputeCurrency}
                   </span>
                 </div>

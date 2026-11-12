@@ -11,6 +11,7 @@
 :root {
   --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  color-scheme: dark;
 
   /* ResolveAI Premium Purple Identity Tokens */
   --primary-purple: #7047EB;
@@ -20,8 +21,11 @@
   --light-lavender: #F3EFFF;
   --bg-workspace: #0B0819;
   --sidebar-dark: #171329;
+  --card-bg: #171329;
+  --input-bg: #141024;
   --text-primary: #FFFFFF;
   --text-secondary: #EAE5F5;
+  --text-muted: #D4CEF5;
   --border-color: rgba(145, 105, 255, 0.22);
   --success: #10B981;
   --warning: #F59E0B;
@@ -126,6 +130,65 @@ p, span, label, input, textarea {
 }
 
 /* =========================================================================
+   NATIVE FORM ELEMENTS — DARK THEME OVERRIDES
+   Fix: browser-default white backgrounds on <select>, <option>, and autofill
+   ========================================================================= */
+
+/* Native <select> elements — force dark background */
+select,
+select option {
+  background-color: var(--input-bg, #141024) !important;
+  color: var(--text-primary, #FFFFFF) !important;
+}
+
+select option:hover,
+select option:checked {
+  background-color: var(--primary-purple, #7047EB) !important;
+  color: #FFFFFF !important;
+}
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(112, 71, 235, 0.3);
+  border-color: var(--electric-violet, #8B5CF6) !important;
+}
+
+/* Fix dropdown arrow visibility on dark backgrounds */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23EAE5F5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem !important;
+}
+
+/* Fix Chrome/Edge autofill turning inputs white */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: #FFFFFF !important;
+  -webkit-box-shadow: 0 0 0 1000px #141024 inset !important;
+  box-shadow: 0 0 0 1000px #141024 inset !important;
+  border-color: rgba(145, 105, 255, 0.25) !important;
+  caret-color: #FFFFFF;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Disabled states — distinguishable from active */
+select:disabled,
+input:disabled,
+textarea:disabled,
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+/* =========================================================================
    AG GRID PURPLE THEME OVERRIDES (WHITE TEXT)
    ========================================================================= */
 .ag-theme-resolveai {
@@ -161,6 +224,28 @@ p, span, label, input, textarea {
 
 .ag-theme-resolveai .ag-cell {
   color: #FFFFFF !important;
+}
+
+.ag-theme-resolveai .ag-row {
+  color: #FFFFFF !important;
+}
+
+.ag-theme-resolveai .ag-header-cell {
+  color: #8B5CF6 !important;
+}
+
+.ag-theme-resolveai .ag-cell-value {
+  color: #FFFFFF !important;
+}
+
+/* Ensure AG Grid dropdowns/popups are dark */
+.ag-theme-resolveai .ag-popup,
+.ag-theme-resolveai .ag-menu,
+.ag-theme-resolveai .ag-filter-toolpanel,
+.ag-theme-resolveai .ag-select .ag-picker-field-wrapper {
+  background-color: #171329 !important;
+  color: #FFFFFF !important;
+  border-color: rgba(145, 105, 255, 0.22) !important;
 }
 
 /* =========================================================================

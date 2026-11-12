@@ -1,31 +1,75 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { ShieldCheck, Mail, Lock, User, Building, Eye, EyeOff } from 'lucide-react';
+import { ShieldCheck, Mail, Lock, User, Building, Eye, EyeOff, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
+
+function getPasswordStrength(password: string): { score: number; label: string; color: string } {
+  let score = 0;
+  if (password.length >= 8) score++;
+  if (password.length >= 12) score++;
+  if (/[A-Z]/.test(password)) score++;
+  if (/[a-z]/.test(password)) score++;
+  if (/[0-9]/.test(password)) score++;
+  if (/[^A-Za-z0-9]/.test(password)) score++;
+
+  if (score <= 2) return { score, label: 'Weak', color: '#EF4444' };
+  if (score <= 4) return { score, label: 'Fair', color: '#F59E0B' };
+  return { score, label: 'Strong', color: '#10B981' };
+}
 
 export default function RegisterPage() {
   const { register } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [businessName, setBusinessName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  const passwordStrength = useMemo(() => getPasswordStrength(password), [password]);
+  const passwordsMatch = confirmPassword.length === 0 || password === confirmPassword;
+
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+
+    if (!name.trim() || name.trim().length < 2) {
+      errors.name = 'Name must be at least 2 characters';
+    }
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    if (password.length < 8) {
+      errors.password = 'Password must be at least 8 characters';
+    }
+    if (password !== confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     setError('');
+    setFieldErrors({});
+
+    if (!validateForm()) return;
+
+    setIsLoading(true);
     try {
-      await register(name, email, password, businessName);
+      await register(name.trim(), email.trim().toLowerCase(), password, businessName.trim() || undefined);
     } catch (err: any) {
-      setError(err.message || 'Registration failed');
+      setError(err.message || 'Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -62,8 +106,9 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 rounded-xl bg-[#EF4444]/15 text-[#EF4444] text-xs border border-[#EF4444]/30 font-medium">
-                {error}
+              <div className="p-3 rounded-xl bg-[#EF4444]/15 text-[#EF4444] text-xs border border-[#EF4444]/30 font-medium flex items-start gap-2">
+                <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                <span>{error}</span>
               </div>
             )}
 
@@ -71,9 +116,10 @@ export default function RegisterPage() {
               label="Full Name"
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => { setName(e.target.value); setFieldErrors(prev => ({ ...prev, name: '' })); }}
               placeholder="Elena Rostova"
               leftIcon={<User className="w-4 h-4 text-white" />}
+              error={fieldErrors.name}
               required
             />
 
@@ -84,46 +130,114 @@ export default function RegisterPage() {
               onChange={(e) => setBusinessName(e.target.value)}
               placeholder="Apex Electronics & Audio Lab"
               leftIcon={<Building className="w-4 h-4 text-white" />}
-              required
+              helperText="Optional — defaults to your name"
             />
 
             <Input
               label="Merchant Work Email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => { setEmail(e.target.value); setFieldErrors(prev => ({ ...prev, email: '' })); }}
               placeholder="merchant@yourstore.com"
               leftIcon={<Mail className="w-4 h-4 text-white" />}
+              error={fieldErrors.email}
               required
             />
 
-            <Input
-              label="Password (min 8 characters)"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••••••"
-              leftIcon={<Lock className="w-4 h-4 text-white" />}
-              rightAction={
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="text-[#D4CEF5] hover:text-white transition-colors"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4 text-white" /> : <Eye className="w-4 h-4 text-white" />}
-                </button>
-              }
-              required
-            />
+            <div>
+              <Input
+                label="Password (min 8 characters)"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setFieldErrors(prev => ({ ...prev, password: '' })); }}
+                placeholder="••••••••••••"
+                leftIcon={<Lock className="w-4 h-4 text-white" />}
+                rightAction={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-[#D4CEF5] hover:text-white transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4 text-white" /> : <Eye className="w-4 h-4 text-white" />}
+                  </button>
+                }
+                error={fieldErrors.password}
+                required
+              />
+              {/* Password strength bar */}
+              {password.length > 0 && (
+                <div className="mt-2 space-y-1">
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                      <div
+                        key={i}
+                        className="h-1 flex-1 rounded-full transition-all duration-300"
+                        style={{
+                          backgroundColor: i <= passwordStrength.score ? passwordStrength.color : '#2D254C',
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-[10px] font-medium font-mono" style={{ color: passwordStrength.color }}>
+                    {passwordStrength.label}
+                  </span>
+                </div>
+              )}
+            </div>
 
-            <Button type="submit" variant="primary" size="lg" className="w-full mt-2" isLoading={isLoading}>
-              Complete Registration
+            <div>
+              <Input
+                label="Confirm Password"
+                type={showConfirmPassword ? 'text' : 'password'}
+                value={confirmPassword}
+                onChange={(e) => { setConfirmPassword(e.target.value); setFieldErrors(prev => ({ ...prev, confirmPassword: '' })); }}
+                placeholder="••••••••••••"
+                leftIcon={<Lock className="w-4 h-4 text-white" />}
+                rightAction={
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="text-[#D4CEF5] hover:text-white transition-colors"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4 text-white" /> : <Eye className="w-4 h-4 text-white" />}
+                  </button>
+                }
+                error={fieldErrors.confirmPassword}
+                required
+              />
+              {/* Password match indicator */}
+              {confirmPassword.length > 0 && (
+                <div className="mt-1.5 flex items-center gap-1.5">
+                  {passwordsMatch ? (
+                    <>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" />
+                      <span className="text-[10px] text-[#10B981] font-medium">Passwords match</span>
+                    </>
+                  ) : (
+                    <>
+                      <XCircle className="w-3.5 h-3.5 text-[#EF4444]" />
+                      <span className="text-[10px] text-[#EF4444] font-medium">Passwords do not match</span>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="w-full mt-2"
+              isLoading={isLoading}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Creating Account...' : 'Complete Registration'}
             </Button>
 
             <div className="pt-2 text-center text-xs text-[#EAE5F5]">
               Already have an account?{' '}
               <Link href="/login" className="text-[#8B5CF6] font-semibold hover:underline">
-                Sign in
+                Sign in to console
               </Link>
             </div>
           </form>

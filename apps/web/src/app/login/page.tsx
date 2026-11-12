@@ -13,27 +13,38 @@ import {
   Eye,
   EyeOff,
   CheckCircle2,
+  AlertTriangle,
 } from 'lucide-react';
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const [email, setEmail] = useState('merchant@resolveai.test');
-  const [password, setPassword] = useState('DemoPassword123!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email.trim() || !password) {
+      setError('Please enter your email and password.');
+      return;
+    }
     setIsLoading(true);
     setError('');
     try {
-      await login(email, password);
+      await login(email.trim().toLowerCase(), password);
     } catch (err: any) {
-      setError(err.message || 'Login failed');
+      setError(err.message || 'Login failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const fillDemoCredentials = () => {
+    setEmail('merchant@resolveai.test');
+    setPassword('DemoPassword123!');
+    setError('');
   };
 
   return (
@@ -94,8 +105,9 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="p-3 rounded-xl bg-[#EF4444]/15 text-[#EF4444] text-xs border border-[#EF4444]/30 font-medium">
-                  {error}
+                <div className="p-3 rounded-xl bg-[#EF4444]/15 text-[#EF4444] text-xs border border-[#EF4444]/30 font-medium flex items-start gap-2">
+                  <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>{error}</span>
                 </div>
               )}
 
@@ -103,8 +115,8 @@ export default function LoginPage() {
                 label="Merchant Email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="merchant@resolveai.test"
+                onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                placeholder="merchant@yourstore.com"
                 leftIcon={<Mail className="w-4 h-4 text-white" />}
                 required
               />
@@ -113,7 +125,7 @@ export default function LoginPage() {
                 label="Password"
                 type={showPassword ? 'text' : 'password'}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => { setPassword(e.target.value); setError(''); }}
                 placeholder="••••••••••••"
                 leftIcon={<Lock className="w-4 h-4 text-white" />}
                 rightAction={
@@ -128,8 +140,15 @@ export default function LoginPage() {
                 required
               />
 
-              <Button type="submit" variant="primary" size="lg" className="w-full mt-2" isLoading={isLoading}>
-                Sign In to Console
+              <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                className="w-full mt-2"
+                isLoading={isLoading}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Signing In...' : 'Sign In to Console'}
               </Button>
 
               <div className="pt-2 text-center text-xs text-[#EAE5F5]">
@@ -140,14 +159,23 @@ export default function LoginPage() {
               </div>
             </form>
 
-            {/* Pre-filled Demo Credentials Box */}
-            <div className="mt-6 p-3.5 bg-[#141024] rounded-xl border border-[rgba(145,105,255,0.2)] text-xs text-center space-y-1">
-              <span className="text-[10px] uppercase font-mono tracking-wider text-[#8B5CF6] font-bold block">
-                Pre-filled Sandbox Credentials
+            {/* Sandbox Demo Credentials */}
+            <div className="mt-6 p-3.5 bg-[#141024] rounded-xl border border-[rgba(145,105,255,0.2)] text-xs space-y-2">
+              <span className="text-[10px] uppercase font-mono tracking-wider text-[#8B5CF6] font-bold block text-center">
+                Sandbox Demo Access
               </span>
-              <span className="font-mono text-white block text-[11px]">
-                merchant@resolveai.test / DemoPassword123!
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[#EAE5F5] text-[11px]">
+                  merchant@resolveai.test
+                </span>
+                <button
+                  type="button"
+                  onClick={fillDemoCredentials}
+                  className="text-[10px] font-semibold text-[#8B5CF6] hover:text-white transition-colors uppercase tracking-wider border border-[#7047EB]/30 rounded-lg px-2.5 py-1 hover:bg-[#7047EB]/20"
+                >
+                  Use Demo
+                </button>
+              </div>
             </div>
           </Card>
         </div>

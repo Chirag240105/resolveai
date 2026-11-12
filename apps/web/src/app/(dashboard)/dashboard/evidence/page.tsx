@@ -170,14 +170,15 @@ export default function EvidencePage() {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="bg-[#141024] border border-[rgba(145,105,255,0.25)] rounded-xl text-sm px-3.5 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-[#7047EB]/30 font-medium"
+            className="bg-[#141024] border border-[rgba(145,105,255,0.25)] rounded-xl text-sm px-3.5 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-[#7047EB]/30 font-medium cursor-pointer hover:border-[#8B5CF6] transition-colors"
+            style={{ backgroundColor: '#141024', color: '#FFFFFF' }}
           >
-            <option value="ALL">All Categories</option>
-            <option value="PROOF_OF_DELIVERY">Proof of Delivery</option>
-            <option value="CARRIER_TRACKING">Carrier Tracking</option>
-            <option value="INVOICE">Invoices & Receipts</option>
-            <option value="CUSTOMER_COMMUNICATION">Customer Chat Logs</option>
-            <option value="TERMS_POLICY">Terms & Policies</option>
+            <option value="ALL" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>All Categories</option>
+            <option value="PROOF_OF_DELIVERY" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>Proof of Delivery</option>
+            <option value="CARRIER_TRACKING" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>Carrier Tracking</option>
+            <option value="INVOICE" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>Invoices & Receipts</option>
+            <option value="CUSTOMER_COMMUNICATION" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>Customer Chat Logs</option>
+            <option value="TERMS_POLICY" style={{ backgroundColor: '#141024', color: '#FFFFFF' }}>Terms & Policies</option>
           </select>
         </div>
       </div>
