@@ -27,16 +27,16 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({ draft, onSave })
   };
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 bg-[#171329] border-[rgba(145,105,255,0.22)] text-white">
       <CardHeader>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-violet-primary/10 border border-violet-primary/20 text-violet-light">
+            <div className="p-1.5 rounded-lg bg-[#7047EB]/20 border border-[#7047EB]/30 text-[#8B5CF6]">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <CardTitle>AI-Drafted Contestation Response</CardTitle>
-              <p className="text-xs text-text-muted mt-0.5">
+              <CardTitle className="text-white">AI-Drafted Contestation Response</CardTitle>
+              <p className="text-xs text-[#EAE5F5] mt-0.5">
                 Deterministic generation grounded in verified shipment & transaction evidence
               </p>
             </div>
@@ -50,7 +50,7 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({ draft, onSave })
             <Button
               variant="outline"
               size="sm"
-              leftIcon={copied ? <CheckCheck className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              leftIcon={copied ? <CheckCheck className="w-3.5 h-3.5 text-[#10B981]" /> : <Copy className="w-3.5 h-3.5 text-white" />}
               onClick={handleCopy}
             >
               {copied ? 'Copied' : 'Copy'}
@@ -72,48 +72,48 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({ draft, onSave })
 
       <div className="space-y-4 mt-2">
         {draft?.subject && (
-          <div className="p-3.5 bg-bg-secondary/70 rounded-lg border border-border-subtle">
-            <span className="text-[10px] uppercase font-mono tracking-wider text-text-muted block mb-1">
+          <div className="p-3.5 bg-[#141024] rounded-xl border border-[rgba(145,105,255,0.2)]">
+            <span className="text-[10px] uppercase font-mono tracking-wider text-[#D4CEF5] block mb-1 font-bold">
               Subject Line for PayPal Submission
             </span>
-            <span className="text-sm font-semibold text-text-primary">{draft.subject}</span>
+            <span className="text-sm font-semibold text-white">{draft.subject}</span>
           </div>
         )}
 
         {isEditing ? (
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-text-muted mb-2">
+            <label className="block text-xs font-mono uppercase tracking-wider text-white mb-2 font-bold">
               Contestation Letter Editor (Supports Markdown & Grounded Facts)
             </label>
             <textarea
-              className="w-full h-56 p-4 text-sm bg-bg-secondary border border-violet-primary/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-primary font-mono text-text-primary placeholder-text-muted leading-relaxed resize-y"
+              className="w-full h-56 p-4 text-sm bg-[#141024] border border-[#8B5CF6] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7047EB]/30 font-mono text-white placeholder-[#A09BB8] leading-relaxed resize-y"
               value={bodyText}
               onChange={(e) => setBodyText(e.target.value)}
             />
           </div>
         ) : (
-          <div className="text-sm text-text-secondary bg-bg-secondary/40 p-5 rounded-xl border border-border-subtle/70 whitespace-pre-line leading-relaxed font-sans">
+          <div className="text-sm text-white bg-[#141024] p-5 rounded-xl border border-[rgba(145,105,255,0.2)] whitespace-pre-line leading-relaxed font-sans">
             {bodyText}
           </div>
         )}
 
         {draft?.sections && draft.sections.length > 0 && (
-          <div className="pt-4 border-t border-border-subtle">
-            <h5 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-muted mb-3 flex items-center gap-1.5">
-              <Link2 className="w-3.5 h-3.5 text-violet-primary" />
+          <div className="pt-4 border-t border-[rgba(145,105,255,0.2)]">
+            <h5 className="text-xs font-mono font-semibold uppercase tracking-wider text-[#D4CEF5] mb-3 flex items-center gap-1.5">
+              <Link2 className="w-3.5 h-3.5 text-[#8B5CF6]" />
               Verified Source Citations (Zero-Hallucination Grounding)
             </h5>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {draft.sections.flatMap((s) => s.citations).map((cit, idx) => (
                 <div
                   key={idx}
-                  className="p-3 rounded-lg border border-border-subtle bg-bg-secondary/50 text-xs transition-colors hover:border-violet-primary/30"
+                  className="p-3.5 rounded-xl border border-[rgba(145,105,255,0.2)] bg-[#141024] text-xs transition-colors hover:border-[#8B5CF6]"
                 >
-                  <div className="flex items-center gap-1.5 font-semibold text-text-primary mb-1">
-                    <span className="text-violet-light font-mono">[{cit.source}]</span>
-                    <span className="text-text-secondary font-mono">{cit.reference}</span>
+                  <div className="flex items-center gap-1.5 font-semibold text-white mb-1">
+                    <span className="text-[#8B5CF6] font-mono">[{cit.source}]</span>
+                    <span className="text-white font-mono">{cit.reference}</span>
                   </div>
-                  <p className="text-text-muted text-[11px] leading-relaxed">{cit.detail}</p>
+                  <p className="text-[#EAE5F5] text-[11px] leading-relaxed">{cit.detail}</p>
                 </div>
               ))}
             </div>

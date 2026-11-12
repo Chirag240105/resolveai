@@ -4,17 +4,13 @@ import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Badge } from '@/components/ui/Badge';
 import {
   ShieldCheck,
   CheckCircle2,
-  RefreshCw,
   PlusCircle,
   CreditCard,
   Key,
   Webhook,
-  Server,
-  AlertCircle,
 } from 'lucide-react';
 
 export default function SettingsPage() {
@@ -78,26 +74,26 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-6 max-w-4xl mx-auto text-white">
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <Key className="w-5 h-5 text-violet-primary" />
+          <Key className="w-5 h-5 text-[#8B5CF6]" />
           <h1 className="text-2xl font-bold tracking-tight text-white font-heading">Settings & Integrations</h1>
         </div>
-        <p className="text-sm text-[#E2DDFF]">
+        <p className="text-sm text-[#EAE5F5]">
           Manage your PayPal Sandbox API credentials, live webhook listeners, and merchant tenant settings.
         </p>
       </div>
 
       {/* PayPal Connection Card */}
-      <Card className="p-6 bg-[#111126]/90 border-[rgba(164,125,255,0.25)]">
+      <Card className="p-6 bg-[#171329] border-[rgba(145,105,255,0.22)] shadow-xs text-white">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-[#963FFF]" />
-              <CardTitle className="text-white font-heading">PayPal Sandbox OAuth Credentials</CardTitle>
+              <ShieldCheck className="w-5 h-5 text-[#8B5CF6]" />
+              <CardTitle className="text-white">PayPal Sandbox OAuth Credentials</CardTitle>
             </div>
-            <span className="flex items-center gap-1.5 text-xs text-[#35D39A] bg-[#35D39A]/15 px-3 py-1 rounded-full border border-[#35D39A]/30 font-mono font-semibold">
+            <span className="flex items-center gap-1.5 text-xs text-[#10B981] bg-[#10B981]/15 px-3 py-1 rounded-full border border-[#10B981]/30 font-mono font-semibold">
               <CheckCircle2 className="w-3.5 h-3.5" /> Sandbox Connected
             </span>
           </div>
@@ -115,7 +111,7 @@ export default function SettingsPage() {
             onChange={(e) => setClientSecret(e.target.value)}
           />
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
-            <span className="text-xs text-[#E2DDFF] font-mono font-medium">
+            <span className="text-xs text-[#D4CEF5] font-mono font-medium">
               Mode: sandbox.paypal.com · v1/oauth2/token
             </span>
             <div className="flex items-center gap-2">
@@ -133,8 +129,8 @@ export default function SettingsPage() {
             </div>
           </div>
           {testResult && (
-            <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs rounded-xl font-mono flex items-center gap-2 font-medium">
-              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+            <div className="p-3 bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] text-xs rounded-xl font-mono flex items-center gap-2 font-medium">
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-[#10B981]" />
               {testResult}
             </div>
           )}
@@ -142,15 +138,15 @@ export default function SettingsPage() {
       </Card>
 
       {/* Test Order Sandbox Trigger */}
-      <Card className="p-6 bg-[#111126]/90 border-[rgba(164,125,255,0.25)]">
+      <Card className="p-6 bg-[#171329] border-[rgba(145,105,255,0.22)] shadow-xs text-white">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <CreditCard className="w-5 h-5 text-[#963FFF]" />
-            <CardTitle className="text-white font-heading">Create Sandbox Test Order & Capture</CardTitle>
+            <CreditCard className="w-5 h-5 text-[#8B5CF6]" />
+            <CardTitle className="text-white">Create Sandbox Test Order & Capture</CardTitle>
           </div>
         </CardHeader>
         <div className="space-y-4 mt-3">
-          <p className="text-xs text-[#E2DDFF] leading-relaxed">
+          <p className="text-xs text-[#EAE5F5] leading-relaxed">
             Generate an authentic test transaction via PayPal's Orders V2 API. This creates a captured transaction record in your database with shipping data ready to link to simulated disputes.
           </p>
           <div className="flex flex-col sm:flex-row items-end gap-4">
@@ -167,15 +163,15 @@ export default function SettingsPage() {
                 size="md"
                 onClick={handleCreateTestOrder}
                 isLoading={isCreatingOrder}
-                leftIcon={<PlusCircle className="w-4 h-4" />}
+                leftIcon={<PlusCircle className="w-4 h-4 text-white" />}
               >
                 Create Sandbox Order
               </Button>
             </div>
           </div>
           {orderCreatedMsg && (
-            <div className="p-3 bg-[rgba(113,59,255,0.15)] text-[#d4c3ff] text-xs rounded-xl border border-[rgba(150,63,255,0.3)] font-mono flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 shrink-0 text-[#35D39A]" />
+            <div className="p-3 bg-[#7047EB]/20 text-white text-xs rounded-xl border border-[#7047EB]/35 font-mono flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-[#10B981]" />
               {orderCreatedMsg}
             </div>
           )}
@@ -183,21 +179,21 @@ export default function SettingsPage() {
       </Card>
 
       {/* Webhook Configuration Guide */}
-      <Card className="p-6 bg-[#111126]/90 border-[rgba(164,125,255,0.25)]">
+      <Card className="p-6 bg-[#171329] border-[rgba(145,105,255,0.22)] shadow-xs text-white">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Webhook className="w-5 h-5 text-[#963FFF]" />
-            <CardTitle className="text-white font-heading">PayPal Webhook Ingestion Endpoint</CardTitle>
+            <Webhook className="w-5 h-5 text-[#8B5CF6]" />
+            <CardTitle className="text-white">PayPal Webhook Ingestion Endpoint</CardTitle>
           </div>
         </CardHeader>
-        <div className="space-y-3.5 text-sm text-[#F7F5FF] mt-3">
-          <p className="text-xs text-[#E2DDFF]">
+        <div className="space-y-3.5 text-sm text-white mt-3">
+          <p className="text-xs text-[#EAE5F5]">
             In your PayPal Developer Dashboard under your REST App, configure this URL with your public host or ngrok URL to receive real-time dispute events:
           </p>
-          <div className="p-3.5 bg-[#0B0B18] rounded-xl font-mono text-xs text-white select-all border border-[rgba(164,125,255,0.25)] font-semibold shadow-inner">
+          <div className="p-3.5 bg-[#141024] rounded-xl font-mono text-xs text-[#A78BFA] select-all border border-[rgba(145,105,255,0.2)] font-semibold">
             https://your-domain.com/api/paypal/webhooks
           </div>
-          <div className="p-3.5 bg-[#0B0B18]/60 rounded-xl border border-[rgba(164,125,255,0.2)] text-xs space-y-1">
+          <div className="p-3.5 bg-[#141024] rounded-xl border border-[rgba(145,105,255,0.2)] text-xs space-y-1">
             <span className="font-semibold text-white block font-mono">Recommended Subscribed Events:</span>
             <p className="font-mono text-[#D4CEF5] text-[11px] leading-relaxed">
               CUSTOMER.DISPUTE.CREATED, CUSTOMER.DISPUTE.UPDATED, CUSTOMER.DISPUTE.RESOLVED, PAYMENT.CAPTURE.COMPLETED

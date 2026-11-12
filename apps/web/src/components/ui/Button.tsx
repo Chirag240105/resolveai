@@ -24,21 +24,21 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#070711] disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] select-none';
+    'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#070711] disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] select-none text-white';
 
   const variants = {
     primary:
-      'bg-gradient-to-r from-[#713BFF] to-[#963FFF] hover:from-[#7e47ff] hover:to-[#a34eff] text-white shadow-[0_0_25px_rgba(113,59,255,0.35)] border border-[rgba(150,63,255,0.4)] focus:ring-[#963FFF]',
+      'bg-gradient-to-r from-[#7047EB] to-[#5128C7] hover:from-[#7D55F2] hover:to-[#5B2FD6] text-white shadow-[0_2px_8px_rgba(112,71,235,0.35)] border border-transparent hover:-translate-y-0.5 focus:ring-[#7047EB]',
     glow:
-      'bg-gradient-to-r from-[#713BFF] via-[#963FFF] to-[#536CFF] text-white shadow-[0_0_35px_rgba(150,63,255,0.5)] border border-[rgba(255,255,255,0.25)] hover:shadow-[0_0_45px_rgba(150,63,255,0.7)] hover:brightness-110 focus:ring-[#536CFF]',
+      'bg-gradient-to-r from-[#7047EB] via-[#8B5CF6] to-[#5128C7] text-white shadow-[0_4px_20px_rgba(112,71,235,0.45)] border border-white/20 hover:shadow-[0_6px_28px_rgba(112,71,235,0.6)] hover:-translate-y-0.5 focus:ring-[#7047EB]',
     secondary:
-      'bg-[#111126]/90 hover:bg-[#1A1836] text-[#F7F5FF] hover:text-white border border-[rgba(164,125,255,0.30)] hover:border-[rgba(164,125,255,0.60)] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-xl focus:ring-[#713BFF]',
+      'bg-[#171329] hover:bg-[#201A38] text-white border border-[rgba(145,105,255,0.25)] hover:border-[#8B5CF6] shadow-sm hover:-translate-y-0.5 focus:ring-[#7047EB]',
     outline:
-      'bg-[#121128]/80 hover:bg-[#1E1B3E] text-white hover:text-white font-semibold border border-[rgba(164,125,255,0.45)] hover:border-[rgba(175,135,255,0.85)] shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-xl hover:shadow-[0_0_25px_rgba(113,59,255,0.35)] focus:ring-[#713BFF]',
+      'bg-transparent hover:bg-white/10 text-white font-semibold border border-[rgba(145,105,255,0.35)] hover:border-[#8B5CF6] shadow-sm hover:-translate-y-0.5 focus:ring-[#7047EB]',
     ghost:
-      'bg-transparent hover:bg-[rgba(145,105,255,0.10)] text-[#AAA6C5] hover:text-[#F7F5FF] focus:ring-[#713BFF]',
+      'bg-transparent hover:bg-white/10 text-[#EAE5F5] hover:text-white focus:ring-[#7047EB]',
     danger:
-      'bg-gradient-to-r from-[#FF4B68] to-[#FF647C] text-white shadow-[0_0_20px_rgba(255,100,124,0.35)] border border-[rgba(255,100,124,0.4)] hover:brightness-105 focus:ring-[#FF647C]',
+      'bg-gradient-to-r from-[#EF4444] to-[#DC2626] text-white shadow-[0_2px_8px_rgba(239,68,68,0.3)] hover:brightness-105 focus:ring-[#EF4444]',
   };
 
   const sizes = {

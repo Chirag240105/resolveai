@@ -8,13 +8,9 @@ import { useRouter } from 'next/navigation';
 import {
   ArrowRight,
   AlertCircle,
-  Sparkles,
   LayoutGrid,
   Table as TableIcon,
   Search,
-  Scale,
-  ShieldCheck,
-  CheckCircle2,
 } from 'lucide-react';
 import type { Dispute } from '@/lib/types';
 import { DisputeStatusChip, ApprovalStatusChip } from '@/components/ui/StatusChip';
@@ -45,8 +41,8 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
         field: 'paypalDisputeId',
         width: 195,
         cellRenderer: (params: any) => (
-          <span className="font-mono text-xs font-bold text-[#38BDF8] hover:text-[#7dd3fc] hover:underline cursor-pointer inline-flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse" />
+          <span className="font-mono text-xs font-bold text-[#8B5CF6] hover:text-[#A78BFA] hover:underline cursor-pointer inline-flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
             {params.value}
           </span>
         ),
@@ -61,7 +57,7 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
         valueFormatter: (params) => {
           return params.value ? params.value.replace(/_/g, ' ') : 'ITEM NOT RECEIVED';
         },
-        cellClass: 'text-xs text-[#F7F5FF] font-medium font-sans',
+        cellClass: 'text-xs text-white font-medium font-sans',
       },
       {
         headerName: 'Dispute Status',
@@ -74,29 +70,29 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
         field: 'disputeAmount',
         width: 160,
         valueFormatter: (params) => `$${Number(params.value || 0).toFixed(2)} USD`,
-        cellClass: 'font-mono font-bold text-[#F5B942]',
+        cellClass: 'font-mono font-bold text-white',
       },
       {
         headerName: 'Response Due',
         field: 'sellerResponseDueDate',
         width: 175,
         cellRenderer: (params: any) => {
-          if (!params.value) return <span className="text-[#6E6A8A] font-mono text-xs">N/A</span>;
+          if (!params.value) return <span className="text-[#D4CEF5] font-mono text-xs">N/A</span>;
           try {
             const date = parseISO(params.value);
             const isUrgent = date.getTime() - Date.now() < 86400000 * 2;
             return (
               <span
                 className={`inline-flex items-center gap-1.5 text-xs font-mono ${
-                  isUrgent ? 'text-[#FF647C] font-semibold' : 'text-[#AAA6C5]'
+                  isUrgent ? 'text-[#EF4444] font-semibold' : 'text-[#EAE5F5]'
                 }`}
               >
-                {isUrgent && <AlertCircle className="w-3.5 h-3.5 text-[#FF647C]" />}
+                {isUrgent && <AlertCircle className="w-3.5 h-3.5 text-[#EF4444]" />}
                 {formatDistanceToNow(date, { addSuffix: true })}
               </span>
             );
           } catch {
-            return <span className="font-mono text-xs">{params.value}</span>;
+            return <span className="font-mono text-xs text-white">{params.value}</span>;
           }
         },
       },
@@ -109,7 +105,7 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
         cellRenderer: (params: any) => (
           <div className="w-full flex items-center h-full gap-2">
             <ProgressBar value={params.value} size="sm" showLabel={false} />
-            <span className="text-xs font-mono font-bold text-[#35D39A] shrink-0">
+            <span className="text-xs font-mono font-bold text-[#10B981] shrink-0">
               {params.value}%
             </span>
           </div>
@@ -129,9 +125,9 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
         cellRenderer: (params: any) => (
           <button
             onClick={() => router.push(`/dashboard/disputes/${params.data.id}`)}
-            className="px-2.5 py-1 rounded-lg bg-[rgba(113,59,255,0.2)] hover:bg-[rgba(113,59,255,0.4)] text-[#d4c3ff] hover:text-white text-xs font-semibold inline-flex items-center gap-1 border border-[rgba(150,63,255,0.35)] transition-all"
+            className="px-2.5 py-1 rounded-lg bg-[#7047EB]/20 hover:bg-[#7047EB]/40 text-white text-xs font-semibold inline-flex items-center gap-1 border border-[#7047EB]/35 transition-all"
           >
-            Investigate <ArrowRight className="w-3 h-3" />
+            Investigate <ArrowRight className="w-3 h-3 text-white" />
           </button>
         ),
       },
@@ -143,16 +139,16 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
     <div className="space-y-3">
       {/* View Switcher Header */}
       <div className="flex items-center justify-between px-1">
-        <span className="text-xs font-mono text-[#AAA6C5]">
+        <span className="text-xs font-mono text-[#D4CEF5] font-medium">
           Showing <span className="text-white font-bold">{rowData.length}</span> verified cases
         </span>
-        <div className="flex items-center gap-1 bg-[#111126] border border-[rgba(164,125,255,0.2)] rounded-lg p-1">
+        <div className="flex items-center gap-1 bg-[#171329] border border-[rgba(145,105,255,0.22)] rounded-xl p-1 shadow-xs">
           <button
             onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded-md text-xs font-medium flex items-center gap-1.5 transition-colors ${
+            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all duration-200 ${
               viewMode === 'grid'
-                ? 'bg-[rgba(113,59,255,0.3)] text-white shadow-sm'
-                : 'text-[#AAA6C5] hover:text-white'
+                ? 'bg-[#7047EB] text-white shadow-xs'
+                : 'text-[#D4CEF5] hover:text-white'
             }`}
             title="AG Grid Terminal View"
           >
@@ -161,10 +157,10 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
           </button>
           <button
             onClick={() => setViewMode('cards')}
-            className={`p-1.5 rounded-md text-xs font-medium flex items-center gap-1.5 transition-colors ${
+            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all duration-200 ${
               viewMode === 'cards'
-                ? 'bg-[rgba(113,59,255,0.3)] text-white shadow-sm'
-                : 'text-[#AAA6C5] hover:text-white'
+                ? 'bg-[#7047EB] text-white shadow-xs'
+                : 'text-[#D4CEF5] hover:text-white'
             }`}
             title="Interactive Case Cards View"
           >
@@ -176,15 +172,15 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
 
       {/* Empty State */}
       {!isLoading && rowData.length === 0 && (
-        <div className="p-12 rounded-2xl bg-[#0F0E24]/80 border border-[rgba(164,125,255,0.2)] text-center space-y-4 shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
-          <div className="w-12 h-12 rounded-2xl bg-[rgba(113,59,255,0.15)] text-[#963FFF] border border-[rgba(150,63,255,0.3)] mx-auto flex items-center justify-center">
-            <Search className="w-6 h-6" />
+        <div className="p-12 rounded-2xl bg-[#171329] border border-[rgba(145,105,255,0.25)] text-center space-y-4 shadow-xs animate-fade-in-up">
+          <div className="w-12 h-12 rounded-2xl bg-[#7047EB]/20 text-[#8B5CF6] border border-[#7047EB]/35 mx-auto flex items-center justify-center">
+            <Search className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-[#F7F5FF] font-heading">
+            <h3 className="text-base font-bold text-white font-heading">
               No dispute cases match your query
             </h3>
-            <p className="text-xs text-[#AAA6C5] mt-1 max-w-md mx-auto">
+            <p className="text-xs text-[#EAE5F5] mt-1 max-w-md mx-auto">
               We couldn't find any disputes matching your search term or active status filter.
             </p>
           </div>
@@ -198,7 +194,7 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
 
       {/* Mode 1: AG Grid Interactive Terminal */}
       {viewMode === 'grid' && (
-        <div className="ag-theme-alpine ag-theme-resolveai w-full h-[540px] rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-[rgba(164,125,255,0.22)] bg-[#0B0B18]">
+        <div className="ag-theme-alpine ag-theme-resolveai w-full h-[540px] rounded-2xl overflow-hidden shadow-xs border border-[rgba(145,105,255,0.25)] bg-[#171329] transition-all duration-300">
           <AgGridReact
             rowData={rowData}
             columnDefs={columnDefs}
@@ -216,50 +212,50 @@ export const DisputeGrid: React.FC<DisputeGridProps> = ({
 
       {/* Mode 2: Dossier Cards Table */}
       {viewMode === 'cards' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in-up">
           {rowData.map((dispute) => {
             const completeness = dispute.aiAnalyses?.[0]?.completenessScore || 85;
             return (
               <div
                 key={dispute.id}
                 onClick={() => router.push(`/dashboard/disputes/${dispute.id}`)}
-                className="p-5 rounded-2xl bg-[#111126]/95 border border-[rgba(164,125,255,0.22)] hover:border-[rgba(164,125,255,0.55)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_8px_24px_rgba(0,0,0,0.4)] hover:shadow-[0_0_30px_rgba(113,59,255,0.25)] transition-all cursor-pointer space-y-4 group"
+                className="p-5 rounded-2xl bg-[#171329] border border-[rgba(145,105,255,0.22)] hover:border-[#8B5CF6] shadow-xs hover:shadow-[0_10px_30px_rgba(112,71,235,0.25)] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer space-y-4 group text-white"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm font-bold text-[#38BDF8]">
+                    <span className="font-mono text-sm font-bold text-[#8B5CF6]">
                       {dispute.paypalDisputeId}
                     </span>
                     <DisputeStatusChip status={dispute.status} />
                   </div>
-                  <span className="font-mono text-base font-bold text-[#F5B942]">
+                  <span className="font-mono text-base font-bold text-white">
                     ${Number(dispute.disputeAmount).toFixed(2)} {dispute.disputeCurrency}
                   </span>
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[10px] uppercase font-mono tracking-wider text-[#6E6A8A] block font-semibold">
+                  <span className="text-[10px] uppercase font-mono tracking-wider text-[#D4CEF5] block font-bold">
                     Dispute Reason
                   </span>
                   <h4 className="text-sm font-bold text-white font-heading">
                     {dispute.reason ? dispute.reason.replace(/_/g, ' ') : 'ITEM NOT RECEIVED'}
                   </h4>
                   {dispute.transaction?.description && (
-                    <p className="text-xs text-[#AAA6C5] line-clamp-1">
+                    <p className="text-xs text-[#EAE5F5] line-clamp-1 font-medium">
                       {dispute.transaction.description}
                     </p>
                   )}
                 </div>
 
-                <div className="pt-2 border-t border-[rgba(164,125,255,0.14)] flex items-center justify-between text-xs">
+                <div className="pt-3 border-t border-[rgba(145,105,255,0.2)] flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="text-[#AAA6C5]">Readiness:</span>
-                    <span className="font-mono font-bold text-[#35D39A]">{completeness}%</span>
+                    <span className="text-[#EAE5F5] font-medium">Readiness:</span>
+                    <span className="font-mono font-bold text-[#10B981]">{completeness}%</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <ApprovalStatusChip status={dispute.approvalStatus} />
-                    <button className="text-xs font-semibold text-[#963FFF] group-hover:text-[#d4c3ff] flex items-center gap-1 transition-colors">
-                      Investigate <ArrowRight className="w-3.5 h-3.5" />
+                    <button className="text-xs font-semibold text-[#8B5CF6] group-hover:text-white flex items-center gap-1 transition-colors">
+                      Investigate <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-white" />
                     </button>
                   </div>
                 </div>

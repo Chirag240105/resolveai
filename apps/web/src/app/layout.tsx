@@ -18,7 +18,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="min-h-screen bg-[#070711] text-[#F7F5FF] font-sans antialiased selection:bg-violet-600/40 selection:text-white">
+      <body className="min-h-screen bg-[#070711] text-white font-sans antialiased selection:bg-violet-600/40 selection:text-white">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

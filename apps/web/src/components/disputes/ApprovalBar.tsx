@@ -27,26 +27,26 @@ export const ApprovalBar: React.FC<ApprovalBarProps> = ({
 
   return (
     <>
-      <div className="fixed bottom-0 inset-x-0 z-40 bg-bg-card/95 backdrop-blur-xl border-t border-border-subtle shadow-[0_-10px_30px_rgba(0,0,0,0.6)] px-6 py-4">
+      <div className="fixed bottom-0 inset-x-0 z-40 bg-[#171329]/95 backdrop-blur-xl border-t border-[rgba(145,105,255,0.25)] shadow-[0_-10px_30px_rgba(0,0,0,0.6)] px-6 py-4 text-white">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="p-2.5 rounded-xl bg-violet-primary/15 text-violet-light border border-violet-primary/30 shrink-0">
+            <div className="p-2.5 rounded-xl bg-[#7047EB]/20 text-[#8B5CF6] border border-[#7047EB]/35 shrink-0">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] uppercase font-mono tracking-wider text-text-muted">
+                <span className="text-[11px] uppercase font-mono tracking-wider text-[#D4CEF5] font-bold">
                   Governance Gate:
                 </span>
-                <span className="text-xs font-semibold text-text-primary">
+                <span className="text-xs font-bold text-white">
                   {status === 'APPROVED' && 'Response Approved by Merchant — Ready for Submission'}
                   {status === 'PENDING_REVIEW' && 'Awaiting Human Merchant Review & Signature'}
                   {status === 'SUBMITTED' && 'Submitted to PayPal Disputes API'}
                   {status === 'REJECTED' && 'Response Draft Rejected by Merchant'}
                 </span>
               </div>
-              <p className="text-xs text-text-muted flex items-center gap-1 mt-0.5">
-                <Lock className="w-3 h-3 text-violet-primary inline" />
+              <p className="text-xs text-[#EAE5F5] flex items-center gap-1 mt-0.5 font-medium">
+                <Lock className="w-3 h-3 text-[#8B5CF6] inline" />
                 Hard Design Rule: AI NEVER submits evidence autonomously. Merchant approval is mandatory.
               </p>
             </div>
@@ -60,7 +60,7 @@ export const ApprovalBar: React.FC<ApprovalBarProps> = ({
                   size="sm"
                   onClick={onReject}
                   disabled={isSubmitting}
-                  leftIcon={<XCircle className="w-4 h-4 text-text-muted" />}
+                  leftIcon={<XCircle className="w-4 h-4 text-white" />}
                 >
                   Reject Draft
                 </Button>
@@ -82,7 +82,7 @@ export const ApprovalBar: React.FC<ApprovalBarProps> = ({
                 size="md"
                 onClick={() => setShowSubmitModal(true)}
                 isLoading={isSubmitting}
-                className="bg-emerald-600 hover:bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                className="bg-[#10B981] hover:bg-[#059669] shadow-[0_4px_16px_rgba(16,185,129,0.35)]"
                 leftIcon={<Send className="w-4 h-4" />}
               >
                 Submit to PayPal Disputes API
@@ -90,7 +90,7 @@ export const ApprovalBar: React.FC<ApprovalBarProps> = ({
             )}
 
             {isSubmitted && (
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20 font-mono">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#10B981] bg-[#10B981]/15 px-3 py-1.5 rounded-lg border border-[#10B981]/30 font-mono">
                 <CheckCircle2 className="w-4 h-4" /> Evidence Submitted to PayPal
               </span>
             )}
@@ -111,7 +111,7 @@ export const ApprovalBar: React.FC<ApprovalBarProps> = ({
               variant="primary"
               size="sm"
               isLoading={isSubmitting}
-              className="bg-emerald-600 hover:bg-emerald-500"
+              className="bg-[#10B981] hover:bg-[#059669]"
               onClick={async () => {
                 await onSubmitToPayPal();
                 setShowSubmitModal(false);
@@ -122,14 +122,14 @@ export const ApprovalBar: React.FC<ApprovalBarProps> = ({
           </>
         }
       >
-        <div className="space-y-4">
-          <div className="p-3.5 bg-amber-500/10 rounded-xl border border-amber-500/20 text-amber-300 text-xs flex items-start gap-3">
-            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+        <div className="space-y-4 text-white">
+          <div className="p-3.5 bg-[#F59E0B]/15 rounded-xl border border-[#F59E0B]/30 text-white text-xs flex items-start gap-3">
+            <AlertTriangle className="w-4 h-4 text-[#F59E0B] shrink-0 mt-0.5" />
             <p className="leading-relaxed">
               This action will officially dispatch your response letter, carrier tracking records, and delivery proofs to PayPal's live Disputes Resolution Center under Seller Protection guidelines.
             </p>
           </div>
-          <p className="text-sm text-text-secondary">
+          <p className="text-sm text-[#EAE5F5]">
             Once submitted, your response will be locked in the audit ledger and transmitted via authenticated PayPal OAuth tokens.
           </p>
         </div>

@@ -4,17 +4,11 @@ import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Badge } from '@/components/ui/Badge';
 import {
   CreditCard,
   PlusCircle,
   Search,
   CheckCircle2,
-  Package,
-  ExternalLink,
-  ShieldCheck,
-  MapPin,
-  RefreshCw,
 } from 'lucide-react';
 
 interface MockTransaction {
@@ -103,7 +97,7 @@ export default function TransactionsPage() {
     setIsCreating(true);
     setFeedbackMsg('');
     try {
-      const res = await fetch('/api/paypal/orders', {
+      await fetch('/api/paypal/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -149,35 +143,35 @@ export default function TransactionsPage() {
   );
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto text-white">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <CreditCard className="w-5 h-5 text-violet-primary" />
-            <h1 className="text-2xl font-bold tracking-tight text-text-primary">Captured Transactions & Orders</h1>
+            <CreditCard className="w-5 h-5 text-[#8B5CF6]" />
+            <h1 className="text-2xl font-bold tracking-tight text-white font-heading">Captured Transactions & Orders</h1>
           </div>
-          <p className="text-sm text-text-muted">
+          <p className="text-sm text-[#EAE5F5]">
             PayPal Orders V2 captures with attached fulfillment tracking and Seller Protection eligibility logs.
           </p>
         </div>
       </div>
 
       {/* Sandbox Test Order Generator Card */}
-      <Card className="p-6 border-violet-primary/30 bg-bg-card/90">
+      <Card className="p-6 border-[rgba(145,105,255,0.22)] bg-[#171329] shadow-xs text-white">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <PlusCircle className="w-4 h-4 text-violet-primary" />
-            <CardTitle>Create PayPal Sandbox Test Order & Capture</CardTitle>
+            <PlusCircle className="w-4 h-4 text-[#8B5CF6]" />
+            <CardTitle className="text-white">Create PayPal Sandbox Test Order & Capture</CardTitle>
           </div>
         </CardHeader>
-        <p className="text-xs text-text-muted mt-1 mb-4">
+        <p className="text-xs text-[#EAE5F5] mt-1 mb-4">
           Instantly generate a test transaction through PayPal's sandbox Orders API with simulated shipping address and carrier tracking.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
           <div>
-            <label className="block text-xs font-mono uppercase text-text-muted mb-1.5">Amount (USD)</label>
+            <label className="block text-xs font-mono uppercase text-[#D4CEF5] mb-1.5 font-bold">Amount (USD)</label>
             <Input
               value={newAmount}
               onChange={(e) => setNewAmount(e.target.value)}
@@ -185,7 +179,7 @@ export default function TransactionsPage() {
             />
           </div>
           <div>
-            <label className="block text-xs font-mono uppercase text-text-muted mb-1.5">Item Description</label>
+            <label className="block text-xs font-mono uppercase text-[#D4CEF5] mb-1.5 font-bold">Item Description</label>
             <Input
               value={newDesc}
               onChange={(e) => setNewDesc(e.target.value)}
@@ -199,7 +193,7 @@ export default function TransactionsPage() {
               className="w-full"
               onClick={handleCreateSandboxOrder}
               isLoading={isCreating}
-              leftIcon={<PlusCircle className="w-4 h-4" />}
+              leftIcon={<PlusCircle className="w-4 h-4 text-white" />}
             >
               Generate Order
             </Button>
@@ -207,7 +201,7 @@ export default function TransactionsPage() {
         </div>
 
         {feedbackMsg && (
-          <div className="mt-4 p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-xl font-mono flex items-center gap-2">
+          <div className="mt-4 p-3 bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] text-xs rounded-xl font-mono flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 shrink-0" />
             {feedbackMsg}
           </div>
@@ -215,64 +209,64 @@ export default function TransactionsPage() {
       </Card>
 
       {/* Search */}
-      <div className="flex items-center gap-4 bg-bg-card p-4 rounded-xl border border-border-subtle">
+      <div className="flex items-center gap-4 bg-[#171329] p-4 rounded-2xl border border-[rgba(145,105,255,0.22)] shadow-xs">
         <div className="flex-1">
           <Input
             placeholder="Search transactions by Order ID, Payer, or Tracking Number..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            leftIcon={<Search className="w-4 h-4 text-text-muted" />}
+            leftIcon={<Search className="w-4 h-4 text-white" />}
           />
         </div>
       </div>
 
       {/* Transactions Table */}
-      <Card className="p-0 overflow-hidden">
+      <Card className="p-0 overflow-hidden bg-[#171329] border-[rgba(145,105,255,0.22)] shadow-xs text-white">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="bg-bg-secondary border-b border-border-subtle text-text-muted uppercase text-[10px] tracking-wider">
+            <thead className="bg-[#141024] border-b border-[rgba(145,105,255,0.2)] text-[#D4CEF5] uppercase text-[10px] tracking-wider font-bold">
               <tr>
-                <th className="py-3 px-4">Order & Capture ID</th>
-                <th className="py-3 px-4">Payer Details</th>
-                <th className="py-3 px-4">Amount</th>
-                <th className="py-3 px-4">Fulfillment Carrier</th>
-                <th className="py-3 px-4">Tracking Number</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4 text-right">Date</th>
+                <th className="py-3.5 px-4">Order & Capture ID</th>
+                <th className="py-3.5 px-4">Payer Details</th>
+                <th className="py-3.5 px-4">Amount</th>
+                <th className="py-3.5 px-4">Fulfillment Carrier</th>
+                <th className="py-3.5 px-4">Tracking Number</th>
+                <th className="py-3.5 px-4">Status</th>
+                <th className="py-3.5 px-4 text-right">Date</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border-subtle/50 text-text-secondary">
+            <tbody className="divide-y divide-[rgba(145,105,255,0.18)] text-white">
               {filtered.map((tx) => (
-                <tr key={tx.id} className="hover:bg-bg-secondary/40 transition-colors">
+                <tr key={tx.id} className="hover:bg-[#141024]/60 transition-colors">
                   <td className="py-3.5 px-4">
-                    <span className="font-bold text-text-primary block">{tx.paypalOrderId}</span>
-                    <span className="text-[10px] text-text-muted">{tx.paypalCaptureId}</span>
+                    <span className="font-bold text-white block">{tx.paypalOrderId}</span>
+                    <span className="text-[10px] text-[#D4CEF5]">{tx.paypalCaptureId}</span>
                   </td>
                   <td className="py-3.5 px-4">
-                    <span className="font-semibold text-text-primary block font-sans">{tx.payerName}</span>
-                    <span className="text-[11px] text-text-muted">{tx.payerEmail}</span>
+                    <span className="font-semibold text-white block font-sans">{tx.payerName}</span>
+                    <span className="text-[11px] text-[#EAE5F5]">{tx.payerEmail}</span>
                   </td>
-                  <td className="py-3.5 px-4 font-bold text-text-primary">
-                    ${tx.amount} <span className="text-[10px] text-text-muted">{tx.currency}</span>
+                  <td className="py-3.5 px-4 font-bold text-white">
+                    ${tx.amount} <span className="text-[10px] text-[#D4CEF5]">{tx.currency}</span>
                   </td>
-                  <td className="py-3.5 px-4 font-sans text-text-secondary">
+                  <td className="py-3.5 px-4 font-sans text-[#EAE5F5]">
                     {tx.carrier}
                   </td>
-                  <td className="py-3.5 px-4 text-violet-light font-medium">
+                  <td className="py-3.5 px-4 text-[#8B5CF6] font-bold">
                     {tx.trackingNumber}
                   </td>
                   <td className="py-3.5 px-4">
                     {tx.status === 'DISPUTED' ? (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#F59E0B] bg-[#F59E0B]/15 px-2 py-0.5 rounded-md border border-[#F59E0B]/30">
                         Disputed
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#10B981] bg-[#10B981]/15 px-2 py-0.5 rounded-md border border-[#10B981]/30">
                         Captured
                       </span>
                     )}
                   </td>
-                  <td className="py-3.5 px-4 text-right text-text-muted font-sans">
+                  <td className="py-3.5 px-4 text-right text-[#D4CEF5] font-sans">
                     {tx.date}
                   </td>
                 </tr>
@@ -284,4 +278,3 @@ export default function TransactionsPage() {
     </div>
   );
 }
-

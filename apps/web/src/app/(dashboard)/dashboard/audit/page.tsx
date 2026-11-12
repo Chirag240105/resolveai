@@ -4,19 +4,15 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Badge } from '@/components/ui/Badge';
 import { Timeline } from '@/components/ui/Timeline';
 import { api } from '@/lib/api';
 import type { AuditLog } from '@/lib/types';
 import {
   ShieldCheck,
   Search,
-  Filter,
   Download,
   CheckCircle2,
   Lock,
-  RefreshCw,
-  FileCheck,
 } from 'lucide-react';
 
 const mockAuditLogs: AuditLog[] = [
@@ -85,7 +81,6 @@ export default function AuditPage() {
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    // Optionally fetch live audit logs from backend
     api.getWebhookFeed().then((feed) => {
       if (feed && feed.length > 0) {
         setLogs([...mockAuditLogs, ...feed]);
@@ -115,15 +110,15 @@ export default function AuditPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto text-white">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Lock className="w-5 h-5 text-violet-primary" />
-            <h1 className="text-2xl font-bold tracking-tight text-text-primary">Immutable Audit Trail</h1>
+            <Lock className="w-5 h-5 text-[#8B5CF6]" />
+            <h1 className="text-2xl font-bold tracking-tight text-white font-heading">Immutable Audit Trail</h1>
           </div>
-          <p className="text-sm text-text-muted">
+          <p className="text-sm text-[#EAE5F5]">
             Append-only compliance log guaranteeing non-repudiation and human approval tracking.
           </p>
         </div>
@@ -133,7 +128,7 @@ export default function AuditPage() {
             size="sm"
             onClick={handleExport}
             isLoading={isExporting}
-            leftIcon={<Download className="w-4 h-4" />}
+            leftIcon={<Download className="w-4 h-4 text-white" />}
           >
             Export Audit Ledger
           </Button>
@@ -141,40 +136,40 @@ export default function AuditPage() {
       </div>
 
       {/* Security Assurance Banner */}
-      <div className="p-4 rounded-xl bg-violet-primary/10 border border-violet-primary/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-4 rounded-2xl bg-[#171329] border border-[rgba(145,105,255,0.25)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-white">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-violet-primary/20 text-violet-light">
-            <ShieldCheck className="w-5 h-5" />
+          <div className="p-2.5 rounded-xl bg-[#7047EB]/20 text-[#8B5CF6] border border-[#7047EB]/35 shadow-xs">
+            <ShieldCheck className="w-5 h-5 text-[#8B5CF6]" />
           </div>
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-text-primary">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-white">
               Cryptographic Integrity Guarantee
             </h4>
-            <p className="text-xs text-text-muted mt-0.5">
+            <p className="text-xs text-[#EAE5F5] mt-0.5">
               All merchant approvals, analysis versions, and dispute submissions are permanently persisted.
             </p>
           </div>
         </div>
-        <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-mono bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+        <span className="inline-flex items-center gap-1.5 text-xs text-[#10B981] font-mono bg-[#10B981]/15 px-3 py-1.5 rounded-full border border-[#10B981]/30">
           <CheckCircle2 className="w-3.5 h-3.5" /> Zero Modifications Detected
         </span>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 bg-bg-card p-4 rounded-xl border border-border-subtle">
+      <div className="flex flex-col sm:flex-row items-center gap-4 bg-[#171329] p-4 rounded-2xl border border-[rgba(145,105,255,0.22)] shadow-xs">
         <div className="flex-1 w-full">
           <Input
             placeholder="Search by action, dispute ID, or user..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            leftIcon={<Search className="w-4 h-4 text-text-muted" />}
+            leftIcon={<Search className="w-4 h-4 text-white" />}
           />
         </div>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <select
             value={filterAction}
             onChange={(e) => setFilterAction(e.target.value)}
-            className="bg-bg-secondary border border-border-subtle rounded-lg text-sm px-3.5 py-2.5 text-text-primary focus:outline-none focus:ring-2 focus:ring-violet-primary"
+            className="bg-[#141024] border border-[rgba(145,105,255,0.25)] rounded-xl text-sm px-3.5 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-[#7047EB]/30 font-medium"
           >
             <option value="ALL">All Event Types</option>
             <option value="APPROVAL_GRANTED">Approvals Granted</option>
@@ -187,11 +182,11 @@ export default function AuditPage() {
       </div>
 
       {/* Timeline Component */}
-      <Card className="p-6">
+      <Card className="p-6 bg-[#171329] border-[rgba(145,105,255,0.22)] text-white shadow-xs">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Historical Execution Ledger ({filteredLogs.length} Events)</CardTitle>
-            <span className="text-xs font-mono text-text-muted">Database: PostgreSQL · Prisma</span>
+            <CardTitle className="text-white">Historical Execution Ledger ({filteredLogs.length} Events)</CardTitle>
+            <span className="text-xs font-mono text-[#D4CEF5]">Database: PostgreSQL · Prisma</span>
           </div>
         </CardHeader>
         <div className="mt-4">
@@ -201,4 +196,3 @@ export default function AuditPage() {
     </div>
   );
 }
-

@@ -1,18 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import {
   FileCheck,
-  ShieldCheck,
   Search,
-  Filter,
   CheckCircle2,
   Clock,
-  ExternalLink,
   Sparkles,
   UploadCloud,
   FileText,
@@ -110,70 +107,70 @@ export default function EvidencePage() {
   });
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto text-white">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <FileCheck className="w-5 h-5 text-violet-primary" />
-            <h1 className="text-2xl font-bold tracking-tight text-text-primary">Evidence Registry & Repository</h1>
+            <FileCheck className="w-5 h-5 text-[#8B5CF6]" />
+            <h1 className="text-2xl font-bold tracking-tight text-white font-heading">Evidence Registry & Repository</h1>
           </div>
-          <p className="text-sm text-text-muted">
+          <p className="text-sm text-[#EAE5F5]">
             Cryptographically audited evidence records, carrier scans, and merchant documentation for PayPal disputes.
           </p>
         </div>
-        <Button variant="primary" size="sm" leftIcon={<UploadCloud className="w-4 h-4" />}>
+        <Button variant="primary" size="sm" leftIcon={<UploadCloud className="w-4 h-4 text-white" />}>
           Upload Evidence Artifact
         </Button>
       </div>
 
       {/* KPI Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-5">
-          <span className="text-[11px] uppercase font-mono tracking-wider text-text-muted block mb-1">
+        <Card className="p-5 bg-[#171329] border-[rgba(145,105,255,0.22)] text-white shadow-xs">
+          <span className="text-[11px] uppercase font-mono tracking-wider text-[#D4CEF5] block mb-1 font-bold">
             Total Proof Artifacts
           </span>
-          <span className="text-2xl font-bold font-mono text-text-primary">128</span>
-          <span className="text-xs text-text-muted mt-1 block">Cross-referenced across disputes</span>
+          <span className="text-2xl font-bold font-mono text-white">128</span>
+          <span className="text-xs text-[#EAE5F5] mt-1 block">Cross-referenced across disputes</span>
         </Card>
-        <Card className="p-5">
-          <span className="text-[11px] uppercase font-mono tracking-wider text-text-muted block mb-1">
+        <Card className="p-5 bg-[#171329] border-[rgba(145,105,255,0.22)] text-white shadow-xs">
+          <span className="text-[11px] uppercase font-mono tracking-wider text-[#D4CEF5] block mb-1 font-bold">
             Verified Artifacts
           </span>
-          <span className="text-2xl font-bold font-mono text-emerald-400">124</span>
-          <span className="text-xs text-text-muted mt-1 block">96.8% verification pass rate</span>
+          <span className="text-2xl font-bold font-mono text-[#10B981]">124</span>
+          <span className="text-xs text-[#EAE5F5] mt-1 block">96.8% verification pass rate</span>
         </Card>
-        <Card className="p-5">
-          <span className="text-[11px] uppercase font-mono tracking-wider text-text-muted block mb-1">
+        <Card className="p-5 bg-[#171329] border-[rgba(145,105,255,0.22)] text-white shadow-xs">
+          <span className="text-[11px] uppercase font-mono tracking-wider text-[#D4CEF5] block mb-1 font-bold">
             AI-Extracted Proofs
           </span>
-          <span className="text-2xl font-bold font-mono text-violet-light">89</span>
-          <span className="text-xs text-text-muted mt-1 block">Grounded in carrier API hooks</span>
+          <span className="text-2xl font-bold font-mono text-[#8B5CF6]">89</span>
+          <span className="text-xs text-[#EAE5F5] mt-1 block">Grounded in carrier API hooks</span>
         </Card>
-        <Card className="p-5">
-          <span className="text-[11px] uppercase font-mono tracking-wider text-text-muted block mb-1">
+        <Card className="p-5 bg-[#171329] border-[rgba(145,105,255,0.22)] text-white shadow-xs">
+          <span className="text-[11px] uppercase font-mono tracking-wider text-[#D4CEF5] block mb-1 font-bold">
             Seller Protection Score
           </span>
-          <span className="text-2xl font-bold font-mono text-text-primary">94.2%</span>
-          <span className="text-xs text-emerald-400 mt-1 block font-mono">Compliant with PayPal Policy</span>
+          <span className="text-2xl font-bold font-mono text-white">94.2%</span>
+          <span className="text-xs text-[#10B981] mt-1 block font-mono">Compliant with PayPal Policy</span>
         </Card>
       </div>
 
       {/* Filter and Search */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 bg-bg-card p-4 rounded-xl border border-border-subtle">
+      <div className="flex flex-col sm:flex-row items-center gap-4 bg-[#171329] p-4 rounded-2xl border border-[rgba(145,105,255,0.22)] shadow-xs">
         <div className="flex-1 w-full">
           <Input
             placeholder="Search by proof title, dispute ID, or reference tag..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            leftIcon={<Search className="w-4 h-4 text-text-muted" />}
+            leftIcon={<Search className="w-4 h-4 text-white" />}
           />
         </div>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="bg-bg-secondary border border-border-subtle rounded-lg text-sm px-3.5 py-2.5 text-text-primary focus:outline-none focus:ring-2 focus:ring-violet-primary"
+            className="bg-[#141024] border border-[rgba(145,105,255,0.25)] rounded-xl text-sm px-3.5 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-[#7047EB]/30 font-medium"
           >
             <option value="ALL">All Categories</option>
             <option value="PROOF_OF_DELIVERY">Proof of Delivery</option>
@@ -188,57 +185,57 @@ export default function EvidencePage() {
       {/* Evidence Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filtered.map((ev) => (
-          <Card key={ev.id} className="p-5 flex flex-col justify-between">
+          <Card key={ev.id} className="p-5 flex flex-col justify-between bg-[#171329] border-[rgba(145,105,255,0.22)] shadow-xs hover:border-[#8B5CF6] transition-colors text-white">
             <div>
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-lg bg-violet-primary/10 border border-violet-primary/20 text-violet-light">
+                  <div className="p-2 rounded-xl bg-[#7047EB]/20 border border-[#7047EB]/35 text-[#8B5CF6]">
                     {ev.category === 'PROOF_OF_DELIVERY' || ev.category === 'CARRIER_TRACKING' ? (
-                      <PackageCheck className="w-4 h-4" />
+                      <PackageCheck className="w-4 h-4 text-white" />
                     ) : ev.category === 'CUSTOMER_COMMUNICATION' ? (
-                      <MessageSquare className="w-4 h-4" />
+                      <MessageSquare className="w-4 h-4 text-white" />
                     ) : (
-                      <FileText className="w-4 h-4" />
+                      <FileText className="w-4 h-4 text-white" />
                     )}
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-text-primary">{ev.title}</h3>
-                    <span className="text-[11px] font-mono text-text-muted">
-                      Attached to <span className="text-violet-light font-medium">{ev.disputeId}</span>
+                    <h3 className="text-sm font-semibold text-white font-heading">{ev.title}</h3>
+                    <span className="text-[11px] font-mono text-[#D4CEF5]">
+                      Attached to <span className="text-[#8B5CF6] font-medium">{ev.disputeId}</span>
                     </span>
                   </div>
                 </div>
                 {ev.status === 'VERIFIED' ? (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#10B981] bg-[#10B981]/15 px-2.5 py-0.5 rounded-md border border-[#10B981]/30">
                     <CheckCircle2 className="w-3.5 h-3.5" /> Verified
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-mono text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#F59E0B] bg-[#F59E0B]/15 px-2.5 py-0.5 rounded-md border border-[#F59E0B]/30">
                     <Clock className="w-3.5 h-3.5" /> Pending
                   </span>
                 )}
               </div>
 
-              <div className="p-3 bg-bg-secondary/60 rounded-lg border border-border-subtle/60 space-y-1.5 text-xs">
+              <div className="p-3 bg-[#141024] rounded-xl border border-[rgba(145,105,255,0.2)] space-y-1.5 text-xs">
                 <div className="flex justify-between">
-                  <span className="text-text-muted font-mono">Reference:</span>
-                  <span className="text-text-primary font-mono">{ev.sourceReference}</span>
+                  <span className="text-[#EAE5F5] font-mono">Reference:</span>
+                  <span className="text-white font-mono font-medium">{ev.sourceReference}</span>
                 </div>
                 {ev.trackingNumber && (
                   <div className="flex justify-between">
-                    <span className="text-text-muted font-mono">Tracking:</span>
-                    <span className="text-violet-light font-mono">{ev.trackingNumber} ({ev.carrier})</span>
+                    <span className="text-[#EAE5F5] font-mono">Tracking:</span>
+                    <span className="text-[#A78BFA] font-mono font-bold">{ev.trackingNumber} ({ev.carrier})</span>
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span className="text-text-muted font-mono">Confidence:</span>
-                  <span className="text-emerald-400 font-mono font-medium">{ev.confidenceScore}%</span>
+                  <span className="text-[#EAE5F5] font-mono">Confidence:</span>
+                  <span className="text-[#10B981] font-mono font-semibold">{ev.confidenceScore}%</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-3 mt-3 border-t border-border-subtle/50 text-xs">
-              <span className="text-text-muted">{ev.uploadedAt}</span>
+            <div className="flex items-center justify-between pt-3 mt-3 border-t border-[rgba(145,105,255,0.18)] text-xs">
+              <span className="text-[#EAE5F5]">{ev.uploadedAt}</span>
               {ev.isAiExtracted && (
                 <Badge variant="purple" size="sm">
                   <Sparkles className="w-3 h-3 mr-1 inline" /> AI Extracted
@@ -251,4 +248,3 @@ export default function EvidencePage() {
     </div>
   );
 }
-

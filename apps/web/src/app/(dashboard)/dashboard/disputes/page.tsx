@@ -11,12 +11,8 @@ import {
   RefreshCw,
   Search,
   Scale,
-  Sparkles,
-  AlertCircle,
   X,
   Filter,
-  DollarSign,
-  Layers,
 } from 'lucide-react';
 
 export default function DisputesPage() {
@@ -83,42 +79,42 @@ export default function DisputesPage() {
     {
       label: 'Action Required',
       value: 'WAITING_FOR_SELLER_RESPONSE',
-      dot: 'bg-[#FF647C]',
+      dot: 'bg-[#EF4444]',
     },
     {
       label: 'Under Review',
       value: 'UNDER_REVIEW',
-      dot: 'bg-[#536CFF]',
+      dot: 'bg-[#8B5CF6]',
     },
     {
       label: 'Open',
       value: 'OPEN',
-      dot: 'bg-[#F5B942]',
+      dot: 'bg-[#F59E0B]',
     },
     {
       label: 'Resolved',
       value: 'RESOLVED',
-      dot: 'bg-[#35D39A]',
+      dot: 'bg-[#10B981]',
     },
   ];
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-16">
+    <div className="space-y-6 max-w-7xl mx-auto pb-16 text-white">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <div className="p-2 rounded-xl bg-[rgba(113,59,255,0.18)] text-[#963FFF] border border-[rgba(150,63,255,0.35)] shadow-[0_0_16px_rgba(113,59,255,0.3)]">
-              <Scale className="w-5 h-5" />
+            <div className="p-2 rounded-xl bg-[#7047EB]/20 text-[#8B5CF6] border border-[#7047EB]/35">
+              <Scale className="w-5 h-5 text-white" />
             </div>
-            <h1 className="font-heading text-2xl md:text-3xl font-extrabold tracking-tight text-[#F7F5FF]">
+            <h1 className="font-heading text-2xl md:text-3xl font-extrabold tracking-tight text-white">
               Disputes Console
             </h1>
-            <Badge variant="purple" size="sm" glow>
+            <Badge variant="purple" size="sm">
               {disputes.length} Cases
             </Badge>
           </div>
-          <p className="text-xs md:text-sm text-[#AAA6C5] leading-relaxed max-w-2xl">
+          <p className="text-xs md:text-sm text-[#EAE5F5] leading-relaxed max-w-2xl font-medium">
             Real-time PayPal dispute ingestion, automated AI evidence classification, and deterministic Seller Protection completeness scoring.
           </p>
         </div>
@@ -129,7 +125,7 @@ export default function DisputesPage() {
             size="sm"
             onClick={handleSyncAll}
             isLoading={isSyncing}
-            leftIcon={<RefreshCw className="w-4 h-4" />}
+            leftIcon={<RefreshCw className="w-4 h-4 text-white" />}
           >
             Sync from PayPal
           </Button>
@@ -138,45 +134,45 @@ export default function DisputesPage() {
 
       {/* Metrics Strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
-        <div className="p-4 rounded-xl bg-[#111126]/90 border border-[rgba(164,125,255,0.16)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-          <span className="text-[10px] uppercase font-mono tracking-wider text-[#AAA6C5] block font-semibold">
+        <div className="p-4 rounded-2xl bg-[#171329] border border-[rgba(145,105,255,0.22)] shadow-xs">
+          <span className="text-[10px] uppercase font-mono tracking-wider text-[#D4CEF5] block font-bold">
             Filtered Cases
           </span>
-          <div className="text-xl md:text-2xl font-bold text-[#F7F5FF] font-mono mt-0.5">
+          <div className="text-xl md:text-2xl font-bold text-white font-mono mt-0.5">
             {disputes.length}
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#111126]/90 border border-[rgba(164,125,255,0.16)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-          <span className="text-[10px] uppercase font-mono tracking-wider text-[#AAA6C5] block font-semibold">
+        <div className="p-4 rounded-2xl bg-[#171329] border border-[rgba(145,105,255,0.22)] shadow-xs">
+          <span className="text-[10px] uppercase font-mono tracking-wider text-[#D4CEF5] block font-bold">
             At-Risk Volume
           </span>
-          <div className="text-xl md:text-2xl font-bold text-[#F5B942] font-mono mt-0.5">
+          <div className="text-xl md:text-2xl font-bold text-[#F59E0B] font-mono mt-0.5">
             ${totalAmount.toFixed(2)} USD
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#111126]/90 border border-[rgba(164,125,255,0.16)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-          <span className="text-[10px] uppercase font-mono tracking-wider text-[#AAA6C5] block font-semibold">
+        <div className="p-4 rounded-2xl bg-[#171329] border border-[rgba(145,105,255,0.22)] shadow-xs">
+          <span className="text-[10px] uppercase font-mono tracking-wider text-[#D4CEF5] block font-bold">
             Action Required
           </span>
-          <div className="text-xl md:text-2xl font-bold text-[#FF647C] font-mono mt-0.5">
+          <div className="text-xl md:text-2xl font-bold text-[#EF4444] font-mono mt-0.5">
             {urgentCount}
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#111126]/90 border border-[rgba(164,125,255,0.16)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-          <span className="text-[10px] uppercase font-mono tracking-wider text-[#AAA6C5] block font-semibold">
+        <div className="p-4 rounded-2xl bg-[#171329] border border-[rgba(145,105,255,0.22)] shadow-xs">
+          <span className="text-[10px] uppercase font-mono tracking-wider text-[#D4CEF5] block font-bold">
             Avg Completeness
           </span>
-          <div className="text-xl md:text-2xl font-bold text-[#35D39A] font-mono mt-0.5">
+          <div className="text-xl md:text-2xl font-bold text-[#10B981] font-mono mt-0.5">
             88%
           </div>
         </div>
       </div>
 
       {/* Modern Filter & Search Bar */}
-      <div className="p-4 rounded-2xl bg-[#0F0E24]/95 border border-[rgba(164,125,255,0.24)] shadow-[0_8px_30px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl space-y-3.5">
+      <div className="p-4 rounded-2xl bg-[#171329] border border-[rgba(145,105,255,0.25)] shadow-xs space-y-3.5">
         {/* Top Search & Actions Row */}
         <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row items-center gap-3">
           <div className="flex-1 w-full relative">
@@ -184,7 +180,7 @@ export default function DisputesPage() {
               placeholder="Search by dispute ID (e.g. PP-D-10291), Order ID, customer name..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              leftIcon={<Search className="w-4 h-4 text-[#AAA6C5]" />}
+              leftIcon={<Search className="w-4 h-4 text-white" />}
               rightAction={
                 search ? (
                   <button
@@ -193,20 +189,19 @@ export default function DisputesPage() {
                       setSearch('');
                       fetchDisputes('', statusFilter);
                     }}
-                    className="p-1 text-[#AAA6C5] hover:text-white transition-colors"
+                    className="p-1 text-[#EAE5F5] hover:text-white transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
                 ) : null
               }
-              className="bg-[#070714] border-[rgba(164,125,255,0.22)] focus:border-[#963FFF] text-white placeholder:text-[#6E6A8A]"
             />
           </div>
 
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <Button
               type="submit"
-              variant="glow"
+              variant="primary"
               size="md"
               className="w-full sm:w-auto shrink-0"
               leftIcon={<Search className="w-4 h-4" />}
@@ -219,7 +214,7 @@ export default function DisputesPage() {
                 variant="ghost"
                 size="md"
                 onClick={handleClearFilters}
-                className="shrink-0 text-[#AAA6C5] hover:text-[#FF647C]"
+                className="shrink-0 text-white hover:text-[#EF4444]"
               >
                 Clear
               </Button>
@@ -229,8 +224,8 @@ export default function DisputesPage() {
 
         {/* Quick Filter Status Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pt-1 scrollbar-none">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#6E6A8A] mr-1 shrink-0 flex items-center gap-1 font-semibold">
-            <Filter className="w-3 h-3" /> Status:
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[#D4CEF5] mr-1 shrink-0 flex items-center gap-1 font-bold">
+            <Filter className="w-3 h-3 text-[#8B5CF6]" /> Status:
           </span>
           {quickFilters.map((qf) => {
             const isSelected = statusFilter === qf.value;
@@ -239,13 +234,13 @@ export default function DisputesPage() {
                 key={qf.label}
                 type="button"
                 onClick={() => setStatusFilter(qf.value)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 shrink-0 flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 shrink-0 flex items-center gap-1.5 ${
                   isSelected
-                    ? 'bg-gradient-to-r from-[#713BFF]/40 to-[#963FFF]/30 text-white border border-[rgba(164,125,255,0.65)] shadow-[0_0_16px_rgba(113,59,255,0.35)]'
-                    : 'bg-[#111126]/80 text-[#AAA6C5] hover:text-white border border-[rgba(164,125,255,0.15)] hover:border-[rgba(164,125,255,0.35)]'
+                    ? 'bg-[#7047EB] text-white shadow-xs'
+                    : 'bg-[#141024] text-[#EAE5F5] hover:text-white border border-[rgba(145,105,255,0.2)] hover:border-[#8B5CF6]/50'
                 }`}
               >
-                {qf.dot && <span className={`w-1.5 h-1.5 rounded-full ${qf.dot}`} />}
+                {qf.dot && <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white' : qf.dot}`} />}
                 <span>{qf.label}</span>
               </button>
             );

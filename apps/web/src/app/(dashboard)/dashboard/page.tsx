@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { DisputeStatusChip, ApprovalStatusChip } from '@/components/ui/StatusChip';
 import { Timeline } from '@/components/ui/Timeline';
-import { AmbientGlow } from '@/components/backgrounds/AmbientGlow';
 import { api } from '@/lib/api';
 import type { DashboardKpis, Dispute } from '@/lib/types';
 import {
@@ -19,9 +18,6 @@ import {
   RefreshCw,
   ArrowRight,
   Sparkles,
-  TrendingUp,
-  FileCheck,
-  ShieldCheck,
 } from 'lucide-react';
 
 export default function DashboardOverviewPage() {
@@ -73,14 +69,14 @@ export default function DashboardOverviewPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
-      <AmbientGlow position="top" color="violet" intensity="subtle" />
-
+    <div className="space-y-8 max-w-7xl mx-auto text-white">
       {/* Top Banner & Quick Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#F7F5FF]">Merchant Dispute Intelligence</h1>
-          <p className="text-xs text-[#AAA6C5] mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-white font-heading">
+            Dispute Intelligence Overview
+          </h1>
+          <p className="text-xs text-[#EAE5F5] mt-1 font-medium">
             Real-time PayPal sandbox dispute investigation and Seller Protection evidence scoring.
           </p>
         </div>
@@ -90,12 +86,12 @@ export default function DashboardOverviewPage() {
             size="sm"
             onClick={handleSync}
             isLoading={isSyncing}
-            leftIcon={<RefreshCw className="w-4 h-4" />}
+            leftIcon={<RefreshCw className="w-4 h-4 text-white" />}
           >
             Sync from PayPal
           </Button>
           <Link href="/dashboard/disputes">
-            <Button variant="glow" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
+            <Button variant="primary" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5 text-white" />}>
               Open Disputes Console
             </Button>
           </Link>
@@ -104,57 +100,57 @@ export default function DashboardOverviewPage() {
 
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <Card hover className="p-5 flex items-center justify-between bg-[#111126]/90 border-[rgba(145,105,255,0.2)]">
+        <Card hover className="p-5 flex items-center justify-between bg-[#171329] border-[rgba(145,105,255,0.22)] text-white">
           <div>
-            <span className="text-[10px] uppercase font-mono tracking-wider text-[#AAA6C5] block font-semibold">
+            <span className="text-[10px] uppercase font-mono tracking-wider text-[#D4CEF5] block font-bold">
               Active Disputes
             </span>
-            <div className="text-2xl font-bold text-[#F7F5FF] mt-1 font-mono">{kpis.activeDisputes}</div>
-            <span className="text-[11px] text-[#536CFF] mt-0.5 block font-medium">Under evaluation</span>
+            <div className="text-2xl font-bold text-white mt-1 font-mono">{kpis.activeDisputes}</div>
+            <span className="text-[11px] text-[#A78BFA] mt-0.5 block font-semibold">Under evaluation</span>
           </div>
-          <div className="p-3 bg-[rgba(83,108,255,0.15)] text-[#536CFF] rounded-2xl border border-[rgba(83,108,255,0.3)]">
-            <Scale className="w-5 h-5" />
+          <div className="p-3 bg-[#7047EB]/20 text-[#8B5CF6] rounded-2xl border border-[#7047EB]/30">
+            <Scale className="w-5 h-5 text-white" />
           </div>
         </Card>
 
-        <Card hover className="p-5 flex items-center justify-between bg-[#111126]/90 border-[rgba(145,105,255,0.2)]">
+        <Card hover className="p-5 flex items-center justify-between bg-[#171329] border-[rgba(145,105,255,0.22)] text-white">
           <div>
-            <span className="text-[10px] uppercase font-mono tracking-wider text-[#AAA6C5] block font-semibold">
+            <span className="text-[10px] uppercase font-mono tracking-wider text-[#D4CEF5] block font-bold">
               Disputed Revenue
             </span>
-            <div className="text-2xl font-bold text-[#F7F5FF] mt-1 font-mono">
+            <div className="text-2xl font-bold text-white mt-1 font-mono">
               ${kpis.totalDisputedAmount.toFixed(2)}
             </div>
-            <span className="text-[11px] text-[#F5B942] mt-0.5 block font-medium">At financial stake</span>
+            <span className="text-[11px] text-[#F59E0B] mt-0.5 block font-semibold">At financial stake</span>
           </div>
-          <div className="p-3 bg-[rgba(245,185,66,0.15)] text-[#F5B942] rounded-2xl border border-[rgba(245,185,66,0.3)]">
-            <DollarSign className="w-5 h-5" />
+          <div className="p-3 bg-[#F59E0B]/20 text-[#F59E0B] rounded-2xl border border-[#F59E0B]/30">
+            <DollarSign className="w-5 h-5 text-white" />
           </div>
         </Card>
 
-        <Card hover className="p-5 flex items-center justify-between bg-[#111126]/90 border-[rgba(145,105,255,0.2)]">
+        <Card hover className="p-5 flex items-center justify-between bg-[#171329] border-[rgba(145,105,255,0.22)] text-white">
           <div>
-            <span className="text-[10px] uppercase font-mono tracking-wider text-[#AAA6C5] block font-semibold">
+            <span className="text-[10px] uppercase font-mono tracking-wider text-[#D4CEF5] block font-bold">
               Avg Completeness
             </span>
-            <div className="text-2xl font-bold text-[#35D39A] mt-1 font-mono">{kpis.averageCompletenessScore}%</div>
-            <span className="text-[11px] text-[#35D39A] mt-0.5 block font-medium">Seller Protection strength</span>
+            <div className="text-2xl font-bold text-[#10B981] mt-1 font-mono">{kpis.averageCompletenessScore}%</div>
+            <span className="text-[11px] text-[#10B981] mt-0.5 block font-semibold">Seller Protection strength</span>
           </div>
-          <div className="p-3 bg-[rgba(53,211,154,0.15)] text-[#35D39A] rounded-2xl border border-[rgba(53,211,154,0.3)]">
-            <CheckCircle2 className="w-5 h-5" />
+          <div className="p-3 bg-[#10B981]/20 text-[#10B981] rounded-2xl border border-[#10B981]/30">
+            <CheckCircle2 className="w-5 h-5 text-white" />
           </div>
         </Card>
 
-        <Card hover className="p-5 flex items-center justify-between bg-[#111126]/90 border-[rgba(145,105,255,0.2)]">
+        <Card hover className="p-5 flex items-center justify-between bg-[#171329] border-[rgba(145,105,255,0.22)] text-white">
           <div>
-            <span className="text-[10px] uppercase font-mono tracking-wider text-[#AAA6C5] block font-semibold">
+            <span className="text-[10px] uppercase font-mono tracking-wider text-[#D4CEF5] block font-bold">
               Urgent (&lt;24h)
             </span>
-            <div className="text-2xl font-bold text-[#FF647C] mt-1 font-mono">{kpis.urgentDisputes}</div>
-            <span className="text-[11px] text-[#FF647C] mt-0.5 block font-medium">Requires immediate response</span>
+            <div className="text-2xl font-bold text-[#EF4444] mt-1 font-mono">{kpis.urgentDisputes}</div>
+            <span className="text-[11px] text-[#EF4444] mt-0.5 block font-semibold">Requires immediate response</span>
           </div>
-          <div className="p-3 bg-[rgba(255,100,124,0.15)] text-[#FF647C] rounded-2xl border border-[rgba(255,100,124,0.3)]">
-            <AlertTriangle className="w-5 h-5" />
+          <div className="p-3 bg-[#EF4444]/20 text-[#EF4444] rounded-2xl border border-[#EF4444]/30">
+            <AlertTriangle className="w-5 h-5 text-white" />
           </div>
         </Card>
       </div>
@@ -165,14 +161,14 @@ export default function DashboardOverviewPage() {
         <div className="lg:col-span-8 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-bold text-[#F7F5FF]">Cases Requiring Review</h2>
+              <h2 className="text-base font-bold text-white font-heading">Cases Requiring Review</h2>
               <Badge variant="purple" size="sm">Action Required</Badge>
             </div>
             <Link
               href="/dashboard/disputes"
-              className="text-xs font-semibold text-[#963FFF] hover:text-[#d4c3ff] flex items-center gap-1 transition-colors"
+              className="text-xs font-semibold text-[#8B5CF6] hover:text-white flex items-center gap-1 transition-colors"
             >
-              View all ({disputes.length}) <ArrowRight className="w-3.5 h-3.5" />
+              View all ({disputes.length}) <ArrowRight className="w-3.5 h-3.5 text-white" />
             </Link>
           </div>
 
@@ -182,32 +178,32 @@ export default function DashboardOverviewPage() {
                 key={dispute.id}
                 hover
                 onClick={() => router.push(`/dashboard/disputes/${dispute.id}`)}
-                className="p-5 cursor-pointer bg-[#111126]/90 border-[rgba(145,105,255,0.2)] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                className="p-5 cursor-pointer bg-[#171329] border-[rgba(145,105,255,0.22)] hover:border-[#8B5CF6] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs text-white"
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2.5">
-                    <span className="font-mono text-xs font-bold text-[#536CFF]">
+                    <span className="font-mono text-xs font-bold text-[#8B5CF6]">
                       {dispute.paypalDisputeId}
                     </span>
                     <DisputeStatusChip status={dispute.status} />
                     <ApprovalStatusChip status={dispute.approvalStatus} />
                   </div>
-                  <h3 className="text-sm font-bold text-[#F7F5FF]">
+                  <h3 className="text-sm font-bold text-white font-heading">
                     {dispute.reason ? dispute.reason.replace(/_/g, ' ') : 'ITEM NOT RECEIVED'}
                   </h3>
                   {dispute.transaction?.description && (
-                    <p className="text-xs text-[#AAA6C5] line-clamp-1">
+                    <p className="text-xs text-[#EAE5F5] line-clamp-1 font-medium">
                       {dispute.transaction.description}
                     </p>
                   )}
                 </div>
 
                 <div className="flex sm:flex-col items-center sm:items-end justify-between shrink-0">
-                  <span className="text-base font-bold text-[#F7F5FF] font-mono">
+                  <span className="text-base font-bold text-white font-mono">
                     ${Number(dispute.disputeAmount).toFixed(2)} {dispute.disputeCurrency}
                   </span>
-                  <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[#35D39A] font-mono">
-                    <Sparkles className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-1.5 mt-1.5 text-xs text-[#10B981] font-mono font-semibold">
+                    <Sparkles className="w-3.5 h-3.5 text-[#8B5CF6]" />
                     <span>
                       {dispute.aiAnalyses?.[0]?.completenessScore || 85}% readiness
                     </span>
@@ -221,10 +217,10 @@ export default function DashboardOverviewPage() {
         {/* Right Column: Live Audit Timeline */}
         <div className="lg:col-span-4 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-bold text-[#F7F5FF]">Compliance Ledger</h2>
+            <h2 className="text-base font-bold text-white font-heading">Compliance Ledger</h2>
             <Badge variant="blue" size="sm">Immutable</Badge>
           </div>
-          <Card className="p-5 bg-[#111126]/90 border-[rgba(145,105,255,0.2)]">
+          <Card className="p-5 bg-[#171329] border-[rgba(145,105,255,0.22)] text-white shadow-xs">
             <Timeline events={data?.recentActivity || []} />
           </Card>
         </div>

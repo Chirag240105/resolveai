@@ -516,22 +516,22 @@ export const HeroScene: React.FC = () => {
                 {/* Structured Text Metadata */}
                 <div className="text-left whitespace-nowrap">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-semibold text-[#F7F5FF] tracking-tight font-sans">
+                    <span className="text-xs font-bold text-white tracking-tight font-sans">
                       {node.label}
                     </span>
                     {node.id === 'order' && (
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     )}
                   </div>
-                  <div className="text-[11px] font-mono text-[#AAA6C5] mt-0.5">
+                  <div className="text-[11px] font-mono text-[#E8E5F7] mt-0.5 font-semibold">
                     {node.detail}
                   </div>
                   <div className="flex items-center gap-2 mt-1">
                     <span
-                      className="text-[10px] font-mono px-2 py-0.5 rounded border leading-none font-medium"
+                      className="text-[10px] font-mono px-2 py-0.5 rounded border leading-none font-bold shadow-sm"
                       style={{
-                        backgroundColor: `${node.color}15`,
-                        borderColor: `${node.color}45`,
+                        backgroundColor: `${node.color}22`,
+                        borderColor: `${node.color}65`,
                         color: node.color,
                       }}
                     >

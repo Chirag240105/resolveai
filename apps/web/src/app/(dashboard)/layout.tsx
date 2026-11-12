@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { TopBar } from '@/components/layout/TopBar';
-import { GridBackground } from '@/components/backgrounds/GridBackground';
 
 export default function DashboardLayout({
   children,
@@ -11,12 +11,19 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-[#070711] text-[#F7F5FF] relative selection:bg-[#713BFF]/40 selection:text-white">
+    <div className="flex min-h-screen bg-[#0B0819] text-white relative selection:bg-[#7047EB]/40 selection:text-white">
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0 relative">
-        <GridBackground variant="dashboard" />
         <TopBar />
-        <main className="flex-1 p-6 md:p-8 pb-32 overflow-y-auto">{children}</main>
+        <main className="flex-1 p-6 md:p-8 pb-32 overflow-y-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+          >
+            {children}
+          </motion.div>
+        </main>
       </div>
     </div>
   );
