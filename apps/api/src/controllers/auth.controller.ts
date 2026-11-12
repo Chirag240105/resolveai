@@ -115,8 +115,12 @@ export async function login(req: Request, res: Response) {
 }
 
 export async function getMe(req: AuthenticatedRequest, res: Response) {
+  if (!req.user?.id) {
+    throw new UnauthorizedError('Unauthorized');
+  }
+
   const user = await prisma.user.findUnique({
-    where: { id: req.user!.id },
+    where: { id: req.user.id },
     select: {
       id: true,
       email: true,
@@ -135,6 +139,10 @@ export async function getMe(req: AuthenticatedRequest, res: Response) {
       },
     },
   });
+
+  if (!user) {
+    throw new UnauthorizedError('User not found');
+  }
 
   return res.json({ success: true, data: user });
 }

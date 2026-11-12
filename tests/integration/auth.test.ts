@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../../apps/api/src/utils/db.js';
@@ -11,6 +11,14 @@ describe('ResolveAI Authentication & Onboarding Integration Tests', () => {
   const testName = 'Jane Doe';
   const testBusiness = 'Jane Premium Store';
   let createdUserId: string;
+
+  afterAll(async () => {
+    if (createdUserId) {
+      await prisma.auditLog.deleteMany({ where: { userId: createdUserId } }).catch(() => {});
+      await prisma.merchant.deleteMany({ where: { userId: createdUserId } }).catch(() => {});
+      await prisma.user.delete({ where: { id: createdUserId } }).catch(() => {});
+    }
+  });
 
   // Mock Express Response helper
   function createMockResponse() {
