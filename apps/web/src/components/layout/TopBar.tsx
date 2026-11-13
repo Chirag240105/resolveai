@@ -9,6 +9,9 @@ import { ExternalLink } from 'lucide-react';
 
 export const TopBar: React.FC = () => {
   const { user } = useAuth();
+  const storeName =
+    user?.businessName ||
+    (user?.name ? `${user.name}'s Store` : 'My Merchant Store');
 
   return (
     <header className="h-16 bg-[#141024]/90 backdrop-blur-md border-b border-[rgba(145,105,255,0.18)] px-8 flex items-center justify-between sticky top-0 z-20 select-none shadow-sm">
@@ -33,8 +36,8 @@ export const TopBar: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <span className="text-xs text-[#EAE5F5] hidden sm:inline font-medium">Store:</span>
-          <span className="text-xs font-semibold text-white bg-[#171329] px-2.5 py-1 rounded-lg border border-[rgba(145,105,255,0.25)]">
-            Apex Electronics Lab
+          <span className="text-xs font-semibold text-white bg-[#171329] px-2.5 py-1 rounded-lg border border-[rgba(145,105,255,0.25)] truncate max-w-[200px]">
+            {storeName}
           </span>
         </div>
       </div>

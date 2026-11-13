@@ -31,6 +31,7 @@ export interface User {
   name: string;
   role: UserRole;
   merchantId?: string;
+  businessName?: string;
 }
 
 export interface Merchant {

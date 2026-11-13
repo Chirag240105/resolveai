@@ -158,7 +158,7 @@ export default function DashboardOverviewPage() {
       {/* Main Content Split: Disputes & Audit Feed */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Priority Cases */}
-        <div className="lg:col-span-8 space-y-4">
+        <div className="lg:col-span-8 space-y-4 min-w-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h2 className="text-base font-bold text-white font-heading">Cases Requiring Review</h2>
@@ -215,12 +215,12 @@ export default function DashboardOverviewPage() {
         </div>
 
         {/* Right Column: Live Audit Timeline */}
-        <div className="lg:col-span-4 space-y-4">
+        <div className="lg:col-span-4 space-y-4 min-w-0">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-bold text-white font-heading">Compliance Ledger</h2>
             <Badge variant="blue" size="sm">Immutable</Badge>
           </div>
-          <Card className="p-5 bg-[#171329] border-[rgba(145,105,255,0.22)] text-white shadow-xs">
+          <Card className="p-5 bg-[#171329] border-[rgba(145,105,255,0.22)] text-white shadow-xs overflow-hidden">
             <Timeline events={data?.recentActivity || []} />
           </Card>
         </div>

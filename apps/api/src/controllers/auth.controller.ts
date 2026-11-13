@@ -61,6 +61,7 @@ export async function register(req: Request, res: Response) {
         name: result.user.name,
         role: result.user.role,
         merchantId: result.merchant.id,
+        businessName: result.merchant.businessName,
       },
     },
   });
@@ -109,6 +110,7 @@ export async function login(req: Request, res: Response) {
         name: user.name,
         role: user.role,
         merchantId: user.merchant?.id,
+        businessName: user.merchant?.businessName || `${user.name}'s Store`,
       },
     },
   });

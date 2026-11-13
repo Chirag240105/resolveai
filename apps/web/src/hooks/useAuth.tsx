@@ -23,6 +23,7 @@ const DEMO_USER: User = {
   email: 'merchant@resolveai.test',
   role: 'MERCHANT',
   merchantId: 'merch-1',
+  businessName: 'Apex Electronics Lab',
 };
 
 const STORAGE_TOKEN_KEY = 'resolveai_token';
@@ -157,6 +158,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         email,
         role: 'MERCHANT',
         merchantId: `merch-${Date.now()}`,
+        businessName: businessName || `${name}'s Store`,
       };
       persistSession('demo-sandbox-token', demoUser);
       router.push('/dashboard');
